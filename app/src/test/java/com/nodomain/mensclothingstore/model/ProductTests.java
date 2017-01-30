@@ -9,15 +9,17 @@ import static org.junit.Assert.*;
 public class ProductTests {
 
     @Test
-    public void creatingProduct() {
+    public void creatingProductIsCorrect() {
         long id = 12;
+        int categoryId = 10;
         String name = "mame";
-        String price = "price";
+        int price = 153;
         String imageUrl = "imageUrl";
 
-        Product product = new Product(id, name, price, imageUrl);
+        Product product = new Product(id, categoryId, name, price, imageUrl);
 
         assertEquals(id, product.getId());
+        assertEquals(categoryId, product.getCategoryId());
         assertEquals(name, product.getName());
         assertEquals(price, product.getPrice());
         assertEquals(imageUrl, product.getImageUrl());

@@ -24,6 +24,15 @@ public class CategoriesRemoteDataSource {
     }
 
     public List<Category> getCategories() {
-        return categories;
+        return copyCategories(categories);  //return copy to achieve immutability of data source
+    }
+
+    private List<Category> copyCategories(List<Category> categories) {
+        List<Category> copiedCategories = new ArrayList<>();
+        for (Category category : categories) {
+            Category copiedCategory = new Category(category.getId(), category.getName());
+            copiedCategories.add(copiedCategory);
+        }
+        return copiedCategories;
     }
 }

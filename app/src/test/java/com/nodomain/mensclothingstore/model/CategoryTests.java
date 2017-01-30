@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class CategoryTests {
 
     @Test
-    public void creatingCategory() {
+    public void creatingCategoryIsCorrect() {
         int id = 12;
         String name = "name";
 

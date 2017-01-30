@@ -4,12 +4,14 @@ package com.nodomain.mensclothingstore.model;
 public class Product {
 
     private long id;
+    private int categoryId;
     private String name;
-    private String price;
+    private int price;
     private String imageUrl;
 
-    public Product(long id, String name, String price, String imageUrl) {
+    public Product(long id, int categoryId, String name, int price, String imageUrl) {
         this.id = id;
+        this.categoryId = categoryId;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -19,11 +21,15 @@ public class Product {
         return id;
     }
 
+    public int getCategoryId() {
+        return categoryId;
+    }
+
     public String getName() {
         return name;
     }
 
-    public String getPrice() {
+    public int getPrice() {
         return price;
     }
 
