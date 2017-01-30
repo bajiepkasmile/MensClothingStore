@@ -1,4 +1,4 @@
-package com.nodomain.mensclothingstore;
+package com.nodomain.mensclothingstore.model;
 
 
 public class Product {
