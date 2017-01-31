@@ -7,11 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class CategoriesRemoteDataSource {
+public class CategoriesRemoteStorage {
 
     private List<Category> categories;
 
-    public CategoriesRemoteDataSource() {
+    public CategoriesRemoteStorage() {
         categories = new ArrayList<>();
         categories.add(new Category(0, "Футболки и майки"));
         categories.add(new Category(1, "Рубашки"));
@@ -24,7 +24,7 @@ public class CategoriesRemoteDataSource {
     }
 
     public List<Category> getCategories() {
-        return copyCategories(categories);  //return copy to achieve immutability of data source
+        return copyCategories(categories);  //return copy to achieve immutability of storage
     }
 
     private List<Category> copyCategories(List<Category> categories) {

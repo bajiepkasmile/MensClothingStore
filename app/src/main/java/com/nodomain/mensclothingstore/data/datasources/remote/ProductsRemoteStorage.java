@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ProductsRemoteDataSource {
+public class ProductsRemoteStorage {
 
     private List<DetailedProduct> allDetailedProducts;
 
-    public ProductsRemoteDataSource() {
+    public ProductsRemoteStorage() {
         allDetailedProducts = new ArrayList<>();
         allDetailedProducts.add(new DetailedProduct(0, 0, "Футболка стретч", 245, "http://veralline.com/uploads/images/comparison/2015/03/12/55618ffdc4.jpg", "Description for Футболка стретч"));
         allDetailedProducts.add(new DetailedProduct(1, 0, "Футболка с длинным рукавом", 3643, "http://www.4shopping.ru/media/coll/2012/11/4925/scotch-and-soda-4925-fall-winter-12-13-0031.jpg", "Description for Футболка с длинным рукавом"));
