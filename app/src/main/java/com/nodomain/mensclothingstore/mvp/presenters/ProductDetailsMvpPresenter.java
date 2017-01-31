@@ -7,5 +7,5 @@ import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
 
 public interface ProductDetailsMvpPresenter extends MvpPresenter<ProductDetailsMvpView> {
 
-    void init(Product product);
+    void getProductDetails(Product product);
 }

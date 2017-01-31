@@ -27,7 +27,7 @@ public class BaseInteractor {
         mainThreadHandler.post(task);
     }
 
-    protected void postEvent(@NonNull Object event) {   //TODO: remove sticky
+    protected void postEvent(@NonNull Object event) {
         EventBus.getDefault().postSticky(event);
     }
 }

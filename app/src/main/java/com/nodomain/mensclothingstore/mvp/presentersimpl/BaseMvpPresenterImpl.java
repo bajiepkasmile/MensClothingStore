@@ -25,4 +25,8 @@ public class BaseMvpPresenterImpl<T extends MvpView> implements MvpPresenter<T> 
         EventBus.getDefault().unregister(this);
         mvpView = null;
     }
+
+    protected void removeStickyEvent(Object event) {
+        EventBus.getDefault().removeStickyEvent(event);
+    }
 }
