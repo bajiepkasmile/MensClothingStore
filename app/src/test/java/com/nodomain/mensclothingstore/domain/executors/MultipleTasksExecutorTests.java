@@ -1,4 +1,4 @@
-package com.nodomain.mensclothingstore.domain;
+package com.nodomain.mensclothingstore.domain.executors;
 
 
 import com.nodomain.mensclothingstore.domain.exectutors.MultipleTasksExecutor;
@@ -7,7 +7,6 @@ import org.junit.Test;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import static junit.framework.Assert.fail;
 
@@ -47,7 +46,7 @@ public class MultipleTasksExecutorTests {
 
     /*
     Проверяет, что все задачи, переданные на выполенние, выполняются
-     */
+    */
     @Test
     public void runsManyTaskAtMoment() {
         int threadsCount = 5;

@@ -1,4 +1,4 @@
-package com.nodomain.mensclothingstore.domain;
+package com.nodomain.mensclothingstore.domain.executors;
 
 
 import com.nodomain.mensclothingstore.domain.exectutors.SingleTaskExecutor;
