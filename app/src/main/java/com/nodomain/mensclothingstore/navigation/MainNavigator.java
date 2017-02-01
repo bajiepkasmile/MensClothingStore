@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.ui.fragments.CategoryProductsFragment;
+import com.nodomain.mensclothingstore.ui.fragments.ProductDetailsFragment;
 import com.nodomain.mensclothingstore.ui.listeners.OnBackPressListener;
 
 
@@ -18,12 +19,16 @@ public class MainNavigator implements CategoryProductsNavigator, ProductDetailsN
 
     @Override
     public void navigateToProductDetails(Product product) {
-
+        fragmentManager.beginTransaction()
+                .replace(android.R.id.content, ProductDetailsFragment.newInstance(product))
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override
     public void navigateToPreviousView() {
-        fragmentManager.popBackStack();
+        if (fragmentManager.getBackStackEntryCount() > 0)
+            fragmentManager.popBackStack();
     }
 
     public void navigateToCategory(Category category) {

@@ -1,6 +1,11 @@
 <resources>
 
     <string name="app_name">Men\'s Clothing Store</string>
-    <string name="network_is_not_available">Отсутствует подключение к сети</string>
+    <string name="currency">%1$d руб.</string>
+    <string name="description">Описание: %1$s</string>
+
+    <!--Errors-->
+    <string name="error.network_is_not_available">Нет подключения к сети</string>
+    <string name="error.connection_failed">Потеряно соединие с сетью</string>
 
 </resources>

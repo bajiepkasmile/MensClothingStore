@@ -1,6 +1,7 @@
 package com.nodomain.mensclothingstore.ui.recyclerviews.adapters;
 
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,13 +34,16 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
 
     @Override
     public void onBindViewHolder(ProductViewHolder holder, int position) {
+        Context context = holder.ivImage.getContext();
         Product product = products.get(position);
+        String formattedPrice = String.format(context.getString(R.string.currency), product.getPrice());
 
-        Picasso.with(holder.ivImage.getContext())
+        holder.tvName.setText(product.getName());
+        holder.tvPrice.setText(formattedPrice);
+
+        Picasso.with(context)
                 .load(product.getImageUrl())
                 .into(holder.ivImage);
-        holder.tvName.setText(product.getName());
-        holder.tvPrice.setText(product.getPrice());
     }
 
     @Override

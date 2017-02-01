@@ -11,6 +11,7 @@ import com.nodomain.mensclothingstore.mvp.views.MvpView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 
+
 public abstract class BaseFragment<P extends MvpPresenter> extends Fragment implements MvpView {
 
     protected P mvpPresenter;
