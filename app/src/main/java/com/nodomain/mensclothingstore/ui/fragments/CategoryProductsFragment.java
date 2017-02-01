@@ -17,6 +17,7 @@ import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.CategoryProductsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.CategoryProductsMvpView;
+import com.nodomain.mensclothingstore.navigation.CategoryProductsNavigator;
 import com.nodomain.mensclothingstore.ui.listeners.OnItemClickListener;
 import com.nodomain.mensclothingstore.ui.recyclerviews.adapters.ProductsAdapter;
 
@@ -28,6 +29,8 @@ import butterknife.BindView;
 public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPresenter>
         implements CategoryProductsMvpView, OnItemClickListener {
 
+    private static final String ARG_CATEGORY = "category";
+
     @BindView(R.id.rv_category_products)
     RecyclerView rvCategoryProducts;
     @BindView(R.id.pb_loading_products)
@@ -35,12 +38,31 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     @BindView(R.id.tv_network_is_not_available)
     TextView tvNetworkIsNotAvailable;
 
+    CategoryProductsNavigator navigator;
+
     private ProductsAdapter productsAdapter;
+
+    public static CategoryProductsFragment newInstance(Category category) {
+        CategoryProductsFragment fragment = new CategoryProductsFragment();
+
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_CATEGORY, category);
+        fragment.setArguments(args);
+
+        return fragment;
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_category_products, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        mvpPresenter.init(getCategoryFromArgs());
+        mvpPresenter.getCategoryProducts(); //TODO: save fragment state
     }
 
     @Override
@@ -69,7 +91,7 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
 
     @Override
     public void showProductDetailsView(Product product) {
-
+        navigator.navigateToProductDetails(product);
     }
 
     @Override
@@ -82,6 +104,10 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     public void onItemClick(int position) {
         Product product = productsAdapter.getItem(position);
         mvpPresenter.getProductDetails(product);
+    }
+
+    private Category getCategoryFromArgs() {
+        return getArguments().getParcelable(ARG_CATEGORY);
     }
 
     private void setTitle(String title) {
