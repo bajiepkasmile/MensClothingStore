@@ -8,4 +8,6 @@ import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
 public interface ProductDetailsMvpPresenter extends MvpPresenter<ProductDetailsMvpView> {
 
     void getProductDetails(Product product);
+
+    void returnToPreviousView();
 }

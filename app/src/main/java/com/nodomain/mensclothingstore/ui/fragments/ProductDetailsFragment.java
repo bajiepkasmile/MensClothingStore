@@ -3,7 +3,10 @@ package com.nodomain.mensclothingstore.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,6 +19,7 @@ import com.nodomain.mensclothingstore.model.DetailedProduct;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
+import com.nodomain.mensclothingstore.navigation.ProductDetailsNavigator;
 import com.nodomain.mensclothingstore.utils.ErrorUtil;
 import com.nodomain.mensclothingstore.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
@@ -37,6 +41,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     @BindView(R.id.pb_loading_details)
     ProgressBar pbLoadingDetails;
 
+    ProductDetailsNavigator navigator;
     ToastUtil toastUtil;
     ErrorUtil errorUtil;
 
@@ -59,7 +64,18 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        displayHomeButton();
         mvpPresenter.getProductDetails(getProductFromArgs());
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            mvpPresenter.returnToPreviousView();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -87,10 +103,22 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     }
 
     @Override
+    public void showPreviousView() {
+        navigator.navigateToPreviousView();
+    }
+
+    @Override
     public void showError(Exception e) {
         String errorMessage = errorUtil.exceptionToErrorMessage(e);
         Toast toast = toastUtil.createCenteredToast(errorMessage);
         toast.show();
+    }
+
+    private void displayHomeButton() {
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
     }
 
     private Product getProductFromArgs() {

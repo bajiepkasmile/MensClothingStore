@@ -27,6 +27,11 @@ public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<Product
         getDetailedProductInteractor.execute(product);
     }
 
+    @Override
+    public void returnToPreviousView() {
+        mvpView.showPreviousView();
+    }
+
     @Subscribe
     public void onGetDetailedProductSuccess(OnGetDetailedProductSuccessEvent event) {
         mvpView.hideLoadingProgress();

@@ -30,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
+                android:contentDescription="@string/content_desc.product_image"
                 app:layout_collapseMode="parallax"
                 />
 
@@ -80,8 +81,8 @@
 
             <ProgressBar
                 android:id="@+id/pb_loading_details"
-                android:layout_width="32dp"
-                android:layout_height="32dp"
+                android:layout_width="@dimen/pb_loading_comments_size"
+                android:layout_height="@dimen/pb_loading_comments_size"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/spacing_small"
                 android:visibility="gone"

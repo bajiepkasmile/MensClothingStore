@@ -3,7 +3,9 @@ package com.nodomain.mensclothingstore.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -35,6 +37,8 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     RecyclerView rvCategoryProducts;
     @BindView(R.id.pb_loading_products)
     ProgressBar pbLoadingProducts;
+    @BindView(R.id.tv_loading_products)
+    TextView tvLoadingProducts;
     @BindView(R.id.tv_network_is_not_available)
     TextView tvNetworkIsNotAvailable;
 
@@ -61,6 +65,7 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        setupToggle();
         mvpPresenter.init(getCategoryFromArgs());
         mvpPresenter.getCategoryProducts(); //TODO: save fragment state
     }
@@ -82,16 +87,18 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     @Override
     public void showProductsLoadingProgress() {
         pbLoadingProducts.setVisibility(View.VISIBLE);
+        tvLoadingProducts.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void hideProductsLoadingProgress() {
         pbLoadingProducts.setVisibility(View.GONE);
+        tvLoadingProducts.setVisibility(View.GONE);
     }
 
     @Override
     public void showProductDetailsView(Product product) {
-        navigator.navigateToProductDetails(product);
+        navigator.navigateToProductDetailsView(product);
     }
 
     @Override
@@ -114,5 +121,17 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null)
             actionBar.setTitle(title);
+    }
+
+    private void setupToggle() {
+        DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                getActivity(),
+                drawerLayout,
+                toolbar,
+                R.string.content_desc_open_drawer,
+                R.string.content_desc_close_drawer);
+        drawerLayout.addDrawerListener(toggle); //TODO: remove drawer listener?
+        toggle.syncState();
     }
 }

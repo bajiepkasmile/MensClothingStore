@@ -1,11 +1,19 @@
 <resources>
 
     <string name="app_name">Men\'s Clothing Store</string>
+
+    <string name="loading_categories">Загрузка категорий</string>
+    <string name="loading_products">Загрузка списка товаров</string>
     <string name="currency">%1$d руб.</string>
     <string name="description">Описание: %1$s</string>
 
     <!--Errors-->
     <string name="error.network_is_not_available">Нет подключения к сети</string>
     <string name="error.connection_failed">Потеряно соединие с сетью</string>
+
+    <!--Content descriptions-->
+    <string name="content_desc.product_image">Product image</string>
+    <string name="content_desc.open_drawer">Drawer opened</string>
+    <string name="content_desc.close_drawer">Drawer closed</string>
 
 </resources>

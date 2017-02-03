@@ -11,4 +11,6 @@ public interface ProductDetailsMvpView extends MvpView {
     void showLoadingProgress();
 
     void hideLoadingProgress();
+
+    void showPreviousView();
 }
