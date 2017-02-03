@@ -7,10 +7,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+
+
 public class ToastUtil {
 
     private Context context;
 
+    @Inject
     public ToastUtil(Context context) {
         this.context = context;
     }

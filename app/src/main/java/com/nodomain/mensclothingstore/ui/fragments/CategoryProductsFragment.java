@@ -20,10 +20,13 @@ import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.CategoryProductsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.CategoryProductsMvpView;
 import com.nodomain.mensclothingstore.navigation.CategoryProductsNavigator;
+import com.nodomain.mensclothingstore.ui.activities.MainActivity;
 import com.nodomain.mensclothingstore.ui.listeners.OnItemClickListener;
 import com.nodomain.mensclothingstore.ui.recyclerviews.adapters.ProductsAdapter;
 
 import java.util.List;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
@@ -42,6 +45,7 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     @BindView(R.id.tv_network_is_not_available)
     TextView tvNetworkIsNotAvailable;
 
+    @Inject
     CategoryProductsNavigator navigator;
 
     private ProductsAdapter productsAdapter;
@@ -59,6 +63,7 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.getMainActivitySubComponent(getActivity()).inject(this);
         return inflater.inflate(R.layout.fragment_category_products, container, false);
     }
 

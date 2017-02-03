@@ -11,6 +11,8 @@ import com.nodomain.mensclothingstore.mvp.views.CategoryProductsMvpView;
 
 import org.greenrobot.eventbus.Subscribe;
 
+import javax.inject.Inject;
+
 
 public class CategoryProductsMvpPresenterImpl extends BaseMvpPresenterImpl<CategoryProductsMvpView>
         implements CategoryProductsMvpPresenter {
@@ -19,6 +21,7 @@ public class CategoryProductsMvpPresenterImpl extends BaseMvpPresenterImpl<Categ
 
     private Category category;
 
+    @Inject
     public CategoryProductsMvpPresenterImpl(GetCategoryProductsInteractor getCategoryProductsInteractor) {
         this.getCategoryProductsInteractor = getCategoryProductsInteractor;
     }

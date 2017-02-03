@@ -1,11 +1,13 @@
 package com.nodomain.mensclothingstore.utils;
 
 
+import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
 import com.nodomain.mensclothingstore.domain.exceptions.NetworkIsNotAvailableException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.fail;
@@ -18,9 +20,14 @@ public class NetworkUtilTests {
     public void checkingNetworkDoNotThrowsExceptionWhenNetworkIsAvailable() {
         NetworkInfo networkInfo = mock(NetworkInfo.class);
         when(networkInfo.isConnected()).thenReturn(true);
+
         ConnectivityManager connectivityManager = mock(ConnectivityManager.class);
         when(connectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
-        NetworkUtil networkUtil = new NetworkUtil(connectivityManager);
+
+        Context context = mock(Context.class);
+        when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManager);
+
+        NetworkUtil networkUtil = new NetworkUtil(context);
 
         networkUtil.checkNetworkIsAvailable();
     }
@@ -29,7 +36,11 @@ public class NetworkUtilTests {
     public void checkingNetworkThrowsExceptionWhenNetworkInfoIsNull() {
         ConnectivityManager connectivityManager = mock(ConnectivityManager.class);
         when(connectivityManager.getActiveNetworkInfo()).thenReturn(null);
-        NetworkUtil networkUtil = new NetworkUtil(connectivityManager);
+
+        Context context = mock(Context.class);
+        when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManager);
+
+        NetworkUtil networkUtil = new NetworkUtil(context);
 
         networkUtil.checkNetworkIsAvailable();
         fail();
@@ -39,9 +50,14 @@ public class NetworkUtilTests {
     public void checkingNetworkThrowsExceptionWhenNetworkInfoIsNotConnected() {
         NetworkInfo networkInfo = mock(NetworkInfo.class);
         when(networkInfo.isConnected()).thenReturn(false);
+
         ConnectivityManager connectivityManager = mock(ConnectivityManager.class);
         when(connectivityManager.getActiveNetworkInfo()).thenReturn(networkInfo);
-        NetworkUtil networkUtil = new NetworkUtil(connectivityManager);
+
+        Context context = mock(Context.class);
+        when(context.getSystemService(Context.CONNECTIVITY_SERVICE)).thenReturn(connectivityManager);
+
+        NetworkUtil networkUtil = new NetworkUtil(context);
 
         networkUtil.checkNetworkIsAvailable();
         fail();

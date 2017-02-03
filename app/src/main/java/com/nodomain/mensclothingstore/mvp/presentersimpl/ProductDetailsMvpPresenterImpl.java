@@ -11,12 +11,15 @@ import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import javax.inject.Inject;
+
 
 public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<ProductDetailsMvpView>
         implements ProductDetailsMvpPresenter {
 
     private final GetDetailedProductInteractor getDetailedProductInteractor;
 
+    @Inject
     public ProductDetailsMvpPresenterImpl(GetDetailedProductInteractor getDetailedProductInteractor) {
         this.getDetailedProductInteractor = getDetailedProductInteractor;
     }

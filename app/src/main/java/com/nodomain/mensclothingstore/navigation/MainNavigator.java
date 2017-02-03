@@ -1,8 +1,8 @@
 package com.nodomain.mensclothingstore.navigation;
 
 
+import android.app.Activity;
 import android.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
@@ -15,9 +15,14 @@ import com.nodomain.mensclothingstore.ui.listeners.OnBackPressListener;
 
 public class MainNavigator implements CategoryProductsNavigator, ProductDetailsNavigator {
 
-    private AppCompatActivity activity;
+    private Activity activity;
     private FragmentManager fragmentManager;
     private OnBackPressListener listener;
+
+    public MainNavigator(Activity activity) {
+        this.activity = activity;
+        fragmentManager = activity.getFragmentManager();
+    }
 
     @Override
     public void navigateToPreviousView() {

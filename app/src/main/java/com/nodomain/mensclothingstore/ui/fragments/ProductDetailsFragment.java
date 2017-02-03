@@ -20,9 +20,12 @@ import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
 import com.nodomain.mensclothingstore.navigation.ProductDetailsNavigator;
+import com.nodomain.mensclothingstore.ui.activities.MainActivity;
 import com.nodomain.mensclothingstore.utils.ErrorUtil;
 import com.nodomain.mensclothingstore.utils.ToastUtil;
 import com.squareup.picasso.Picasso;
+
+import javax.inject.Inject;
 
 import butterknife.BindView;
 
@@ -41,8 +44,11 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     @BindView(R.id.pb_loading_details)
     ProgressBar pbLoadingDetails;
 
+    @Inject
     ProductDetailsNavigator navigator;
+    @Inject
     ToastUtil toastUtil;
+    @Inject
     ErrorUtil errorUtil;
 
     public static ProductDetailsFragment newInstance(Product product) {
@@ -58,6 +64,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.getMainActivitySubComponent(getActivity()).inject(this);
         return inflater.inflate(R.layout.fragment_product_details, container, false);
     }
 

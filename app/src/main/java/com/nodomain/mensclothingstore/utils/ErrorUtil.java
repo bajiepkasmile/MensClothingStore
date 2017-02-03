@@ -7,11 +7,14 @@ import com.nodomain.mensclothingstore.R;
 import com.nodomain.mensclothingstore.domain.exceptions.ConnectionFailedException;
 import com.nodomain.mensclothingstore.domain.exceptions.NetworkIsNotAvailableException;
 
+import javax.inject.Inject;
+
 
 public class ErrorUtil {
 
     private Context context;
 
+    @Inject
     public ErrorUtil(Context context) {
         this.context = context;
     }
