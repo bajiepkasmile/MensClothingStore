@@ -4,9 +4,9 @@ package com.nodomain.mensclothingstore.navigation;
 import android.app.Activity;
 import android.app.FragmentManager;
 
+import com.nodomain.mensclothingstore.R;
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
-import com.nodomain.mensclothingstore.mvp.views.CategoriesLoadingMvpView;
 import com.nodomain.mensclothingstore.ui.fragments.CategoriesLoadingFragment;
 import com.nodomain.mensclothingstore.ui.fragments.CategoryProductsFragment;
 import com.nodomain.mensclothingstore.ui.fragments.ProductDetailsFragment;
@@ -33,25 +33,21 @@ public class MainNavigator implements CategoryProductsNavigator, ProductDetailsN
     @Override
     public void navigateToProductDetailsView(Product product) {
         fragmentManager.beginTransaction()
-                .replace(android.R.id.content, ProductDetailsFragment.newInstance(product))
+                .replace(R.id.fl_fragment_container, ProductDetailsFragment.newInstance(product))
                 .addToBackStack(null)
                 .commit();
     }
 
     public void navigateToCategoryProductsView(Category category) {
         fragmentManager.beginTransaction()
-                .replace(android.R.id.content, CategoryProductsFragment.newInstance(category))
+                .replace(R.id.fl_fragment_container, CategoryProductsFragment.newInstance(category))
                 .commit();
     }
 
-    public CategoriesLoadingMvpView navigateToCategoriesLoadingView() {
-        CategoriesLoadingFragment fragment = CategoriesLoadingFragment.newInstance();
-
+    public void navigateToCategoriesLoadingView() {
         fragmentManager.beginTransaction()
-                .replace(android.R.id.content, fragment)
+                .replace(R.id.fl_fragment_container, CategoriesLoadingFragment.newInstance())
                 .commit();
-
-        return fragment;
     }
 
     public boolean onBackPressed() {

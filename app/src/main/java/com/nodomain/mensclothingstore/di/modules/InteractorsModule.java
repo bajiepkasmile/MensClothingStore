@@ -11,6 +11,8 @@ import com.nodomain.mensclothingstore.domain.interactors.GetCategoryProductsInte
 import com.nodomain.mensclothingstore.domain.interactors.GetDetailedProductInteractor;
 import com.nodomain.mensclothingstore.utils.NetworkUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -24,26 +26,29 @@ public class InteractorsModule {
     @Provides
     GetCategoriesInteractor provideGetCategoriesInteractor(SingleTaskExecutor executor,
                                                            Handler mainThreadHandler,
+                                                           EventBus eventBus,
                                                            CategoriesRemoteStorage storage,
                                                            NetworkUtil networkUtil) {
-        return new GetCategoriesInteractor(executor, mainThreadHandler, storage, networkUtil);
+        return new GetCategoriesInteractor(executor, mainThreadHandler, eventBus, storage, networkUtil);
     }
 
     @Singleton
     @Provides
     GetCategoryProductsInteractor provideGetCategoryProductsInteractor(SingleTaskExecutor executor,
                                                                        Handler mainThreadHandler,
+                                                                       EventBus eventBus,
                                                                        ProductsRemoteStorage storage,
                                                                        NetworkUtil networkUtil) {
-        return new GetCategoryProductsInteractor(executor, mainThreadHandler, storage, networkUtil);
+        return new GetCategoryProductsInteractor(executor, mainThreadHandler, eventBus, storage, networkUtil);
     }
 
     @Singleton
     @Provides
     GetDetailedProductInteractor provideGetDetailedProductsInteractor(SingleTaskExecutor executor,
                                                                       Handler mainThreadHandler,
+                                                                      EventBus eventBus,
                                                                       ProductsRemoteStorage storage,
                                                                       NetworkUtil networkUtil) {
-        return new GetDetailedProductInteractor(executor, mainThreadHandler, storage, networkUtil);
+        return new GetDetailedProductInteractor(executor, mainThreadHandler, eventBus, storage, networkUtil);
     }
 }

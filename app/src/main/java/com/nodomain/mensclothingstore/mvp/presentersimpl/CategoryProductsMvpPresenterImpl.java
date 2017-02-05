@@ -9,6 +9,7 @@ import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.CategoryProductsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.CategoryProductsMvpView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
@@ -22,7 +23,9 @@ public class CategoryProductsMvpPresenterImpl extends BaseMvpPresenterImpl<Categ
     private Category category;
 
     @Inject
-    public CategoryProductsMvpPresenterImpl(GetCategoryProductsInteractor getCategoryProductsInteractor) {
+    public CategoryProductsMvpPresenterImpl(EventBus eventBus,
+                                            GetCategoryProductsInteractor getCategoryProductsInteractor) {
+        super(eventBus);
         this.getCategoryProductsInteractor = getCategoryProductsInteractor;
     }
 

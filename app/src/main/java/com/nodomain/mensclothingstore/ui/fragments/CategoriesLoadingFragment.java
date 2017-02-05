@@ -1,7 +1,6 @@
 package com.nodomain.mensclothingstore.ui.fragments;
 
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -11,16 +10,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nodomain.mensclothingstore.R;
+import com.nodomain.mensclothingstore.mvp.presenters.CategoriesLoadingMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.CategoriesLoadingMvpView;
+import com.nodomain.mensclothingstore.ui.activities.MainActivity;
 
 import butterknife.BindView;
 
 
-public class CategoriesLoadingFragment extends Fragment implements CategoriesLoadingMvpView {
+public class CategoriesLoadingFragment extends BaseFragment<CategoriesLoadingMvpPresenter>
+        implements CategoriesLoadingMvpView {
 
     @BindView(R.id.pb_loading_categories)
     ProgressBar pbLoadingCategories;
-    @BindView(R.id.pb_loading_categories)
+    @BindView(R.id.tv_loading_categories)
     TextView tvLoadingCategories;
     @BindView(R.id.tv_network_is_not_available)
     TextView tvNetworkIsNotAvailable;
@@ -32,7 +34,17 @@ public class CategoriesLoadingFragment extends Fragment implements CategoriesLoa
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        MainActivity.getMainActivitySubComponent(getActivity()).inject(this);
         return inflater.inflate(R.layout.fragment_categories_loading, container, false);
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        if (savedInstanceState == null) {
+            mvpPresenter.getCategories();
+        }
     }
 
     @Override

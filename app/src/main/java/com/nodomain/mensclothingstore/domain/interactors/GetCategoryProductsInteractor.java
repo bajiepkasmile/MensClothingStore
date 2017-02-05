@@ -10,6 +10,8 @@ import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.utils.NetworkUtil;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 import java.util.concurrent.Executor;
 
@@ -21,9 +23,10 @@ public class GetCategoryProductsInteractor extends BaseInteractor {
 
     public GetCategoryProductsInteractor(Executor executor,
                                          Handler mainThreadHandler,
+                                         EventBus eventBus,
                                          ProductsRemoteStorage productsRemoteStorage,
                                          NetworkUtil networkUtil) {
-        super(executor, mainThreadHandler);
+        super(executor, mainThreadHandler, eventBus);
         this.productsRemoteStorage = productsRemoteStorage;
         this.networkUtil = networkUtil;
     }
@@ -33,9 +36,9 @@ public class GetCategoryProductsInteractor extends BaseInteractor {
             try {
                 networkUtil.checkNetworkIsAvailable();
                 List<Product> categoryProducts = productsRemoteStorage.getProductsFromCategory(category);
-                onMainThread(() -> postEvent(new OnGetCategoryProductsSuccessEvent(categoryProducts)));
+                onMainThread(() -> postStickyEvent(new OnGetCategoryProductsSuccessEvent(categoryProducts)));
             } catch (Exception e) {
-                onMainThread(() -> postEvent(new OnGetCategoryProductsFailureEvent(e)));
+                onMainThread(() -> postStickyEvent(new OnGetCategoryProductsFailureEvent(e)));
             }
         });
     }

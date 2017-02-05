@@ -11,6 +11,8 @@ import com.nodomain.mensclothingstore.R;
 import com.nodomain.mensclothingstore.mvp.presenters.MvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.MvpView;
 
+import javax.inject.Inject;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
@@ -21,6 +23,7 @@ public abstract class BaseFragment<P extends MvpPresenter> extends Fragment impl
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @Inject
     protected P mvpPresenter;
 
     private Unbinder unbinder;

@@ -2,6 +2,9 @@ package com.nodomain.mensclothingstore.di.modules;
 
 
 import android.content.Context;
+import android.os.Handler;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,10 +24,20 @@ public class ApplicationModule {
         this.context = context;
     }
 
-    @Singleton
     @Provides
     Context provideContext() {
         return context;
+    }
+
+    @Provides
+    EventBus provideEventBus() {
+        return EventBus.getDefault();
+    }
+
+    @Singleton
+    @Provides
+    Handler provideMainThreadHandler() {
+        return new Handler();
     }
 
     @Singleton

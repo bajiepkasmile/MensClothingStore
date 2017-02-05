@@ -20,7 +20,9 @@ public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<Product
     private final GetDetailedProductInteractor getDetailedProductInteractor;
 
     @Inject
-    public ProductDetailsMvpPresenterImpl(GetDetailedProductInteractor getDetailedProductInteractor) {
+    public ProductDetailsMvpPresenterImpl(EventBus eventBus,
+                                          GetDetailedProductInteractor getDetailedProductInteractor) {
+        super(eventBus);
         this.getDetailedProductInteractor = getDetailedProductInteractor;
     }
 

@@ -2,8 +2,11 @@
 
     <style name="Toolbar">
         <item name="android:background">@color/primary</item>
-        <item name="elevation">@dimen/toolbar_elevation</item>
         <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="DrawerIcon" parent="Widget.AppCompat.DrawerArrowToggle">
+        <item name="color">@color/white</item>
     </style>
 
     <style name="TextViewNetworkIsNotAvailable">

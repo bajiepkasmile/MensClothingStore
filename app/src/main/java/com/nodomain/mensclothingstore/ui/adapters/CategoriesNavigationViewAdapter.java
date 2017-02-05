@@ -1,10 +1,12 @@
-package com.nodomain.mensclothingstore.ui;
+package com.nodomain.mensclothingstore.ui.adapters;
 
 
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.view.Menu;
 import android.view.MenuItem;
 
+import com.nodomain.mensclothingstore.R;
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.ui.listeners.OnItemClickListener;
 
@@ -14,20 +16,23 @@ import java.util.List;
 public class CategoriesNavigationViewAdapter implements NavigationView.OnNavigationItemSelectedListener{
 
     private List<Category> categories;
-    private NavigationView navigationView;
     private OnItemClickListener listener;
+    private Menu menu;
 
     public CategoriesNavigationViewAdapter(List<Category> categories,
                                            NavigationView navigationView,
                                            OnItemClickListener listener) {
         this.categories = categories;
-        this.navigationView = navigationView;
         this.listener = listener;
 
-        navigationView.getMenu().clear();
+        menu = navigationView.getMenu();
+        menu.clear();
         for (int i = 0; i < categories.size(); i++) {
-            navigationView.getMenu().add(0, i, 0, categories.get(i).getName());
+            menu.add(0, i, i, categories.get(i).getName());
         }
+        menu.setGroupCheckable(0, true, true);
+
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -38,5 +43,9 @@ public class CategoriesNavigationViewAdapter implements NavigationView.OnNavigat
 
     public Category getItem(int position) {
         return categories.get(position);
+    }
+
+    public void setItemChecked(int position) {
+        menu.getItem(position).setChecked(true);
     }
 }

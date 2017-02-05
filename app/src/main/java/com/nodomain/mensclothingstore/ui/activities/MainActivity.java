@@ -14,10 +14,10 @@ import com.nodomain.mensclothingstore.R;
 import com.nodomain.mensclothingstore.di.components.MainActivitySubComponent;
 import com.nodomain.mensclothingstore.di.modules.MainActivityModule;
 import com.nodomain.mensclothingstore.model.Category;
-import com.nodomain.mensclothingstore.mvp.views.CategoriesLoadingMvpView;
+import com.nodomain.mensclothingstore.mvp.presenters.MainMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.MainMvpView;
 import com.nodomain.mensclothingstore.navigation.MainNavigator;
-import com.nodomain.mensclothingstore.ui.CategoriesNavigationViewAdapter;
+import com.nodomain.mensclothingstore.ui.adapters.CategoriesNavigationViewAdapter;
 import com.nodomain.mensclothingstore.ui.listeners.OnItemClickListener;
 
 import java.util.List;
@@ -25,6 +25,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 public class MainActivity extends AppCompatActivity
@@ -34,11 +35,12 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView;
 
     @Inject
+    MainMvpPresenter mvpPresenter;
+    @Inject
     MainNavigator navigator;
 
     private MainActivitySubComponent mainActivitySubComponent;
     private CategoriesNavigationViewAdapter categoriesNavigationViewAdapter;
-    private CategoriesLoadingMvpView categoriesLoadingMvpView;
 
     public static MainActivitySubComponent getMainActivitySubComponent(Activity activity) {
         return ((MainActivity) activity).mainActivitySubComponent;
@@ -48,13 +50,23 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+        disableNavigationViewVerticalScroll();
 
         initMainActivitySubComponent();
         mainActivitySubComponent.inject(this);
+        mvpPresenter.attachMvpView(this);
 
         if (savedInstanceState == null) {
-            categoriesLoadingMvpView = navigator.navigateToCategoriesLoadingView();
+            navigator.navigateToCategoriesLoadingView();
+            //TODO: disable drawer
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        mvpPresenter.detachMvpView();
+        super.onDestroy();
     }
 
     @Override
@@ -70,7 +82,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onItemClick(int position) {
         Category category = categoriesNavigationViewAdapter.getItem(position);
-        navigator.navigateToCategoryProductsView(category);
+        mvpPresenter.getCategoryProducts(category);
 
         DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerLayout.closeDrawer(GravityCompat.START);
@@ -79,16 +91,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showCategories(List<Category> categories) {
         categoriesNavigationViewAdapter = new CategoriesNavigationViewAdapter(categories, navigationView, this);
-    }
-
-    @Override
-    public void showLoadingCategoriesProgress() {
-        categoriesLoadingMvpView.showCategoriesLoadingProgress();
-    }
-
-    @Override
-    public void hideLoadingCategoriesProgress() {
-        categoriesLoadingMvpView.hideCategoriesLoadingProgress();
+        categoriesNavigationViewAdapter.setItemChecked(0);
+        navigator.navigateToCategoryProductsView(categories.get(0));
     }
 
     @Override
@@ -98,7 +102,10 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void showError(Exception e) {
-        categoriesLoadingMvpView.showError(e);
+    }
+
+    private void disableNavigationViewVerticalScroll() {
+        navigationView.getChildAt(0).setVerticalScrollBarEnabled(false);
     }
 
     private void initMainActivitySubComponent() {

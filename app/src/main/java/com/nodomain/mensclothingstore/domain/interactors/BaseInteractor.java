@@ -13,10 +13,12 @@ public class BaseInteractor {
 
     private final Executor executor;
     private final Handler mainThreadHandler;
+    private final EventBus eventBus;
 
-    public BaseInteractor(Executor executor, Handler mainThreadHandler) {
+    protected BaseInteractor(Executor executor, Handler mainThreadHandler, EventBus eventBus) {
         this.executor = executor;
         this.mainThreadHandler = mainThreadHandler;
+        this.eventBus = eventBus;
     }
 
     protected void inBackground(Runnable task) {
@@ -27,7 +29,7 @@ public class BaseInteractor {
         mainThreadHandler.post(task);
     }
 
-    protected void postEvent(@NonNull Object event) {
-        EventBus.getDefault().postSticky(event);
+    protected void postStickyEvent(@NonNull Object event) {
+        eventBus.postSticky(event);
     }
 }

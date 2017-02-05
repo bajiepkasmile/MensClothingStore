@@ -3,6 +3,8 @@ package com.nodomain.mensclothingstore.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -35,6 +37,8 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     private static final String ARG_PRODUCT = "product";
 
+    @BindView(R.id.collapsing_toolbar_layout)
+    CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.iv_image)
     ImageView ivImage;
     @BindView(R.id.tv_price)
@@ -43,6 +47,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     TextView tvDescription;
     @BindView(R.id.pb_loading_details)
     ProgressBar pbLoadingDetails;
+
 
     @Inject
     ProductDetailsNavigator navigator;
@@ -97,6 +102,9 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         Picasso.with(getActivity())
                 .load(detailedProduct.getImageUrl())
                 .into(ivImage);
+
+        toolbar.setTitle(detailedProduct.getName());
+        collapsingToolbarLayout.setTitle(detailedProduct.getName());
     }
 
     @Override

@@ -12,8 +12,9 @@
     <string name="error.connection_failed">Потеряно соединие с сетью</string>
 
     <!--Content descriptions-->
-    <string name="content_desc.product_image">Product image</string>
-    <string name="content_desc.open_drawer">Drawer opened</string>
-    <string name="content_desc.close_drawer">Drawer closed</string>
+    <string name="content_desc.product_image">Изображение товара</string>
+    <string name="content_desc.open_drawer">Меню открыто</string>
+    <string name="content_desc.close_drawer">Меню закрыто</string>
+    <string name="content_desc.logo_drawer">Логотип MCS</string>
 
 </resources>
