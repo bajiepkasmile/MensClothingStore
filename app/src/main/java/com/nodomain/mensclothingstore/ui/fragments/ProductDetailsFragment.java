@@ -4,7 +4,7 @@ package com.nodomain.mensclothingstore.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.widget.DrawerLayout;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -36,6 +36,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         implements ProductDetailsMvpView {
 
     private static final String ARG_PRODUCT = "product";
+    private static final String TAG_VIEW_STATE = "view_state";
 
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -48,13 +49,14 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     @BindView(R.id.pb_loading_details)
     ProgressBar pbLoadingDetails;
 
-
     @Inject
     ProductDetailsNavigator navigator;
     @Inject
     ToastUtil toastUtil;
     @Inject
     ErrorUtil errorUtil;
+
+    private DetailedProduct detailedProduct;
 
     public static ProductDetailsFragment newInstance(Product product) {
         ProductDetailsFragment fragment = new ProductDetailsFragment();
@@ -77,7 +79,12 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         displayHomeButton();
-        mvpPresenter.getProductDetails(getProductFromArgs());
+
+        if (detailedProduct == null) {
+            mvpPresenter.getProductDetails(getProductFromArgs());
+        } else {
+            showDetailedProduct(detailedProduct);
+        }
     }
 
     @Override
@@ -92,6 +99,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     @Override
     public void showDetailedProduct(DetailedProduct detailedProduct) {
+        this.detailedProduct = detailedProduct;
         String formattedPrice = String.format(getString(R.string.currency), detailedProduct.getPrice());
         String formattedDescription =
                 String.format(getString(R.string.description), detailedProduct.getDescription());
@@ -105,6 +113,8 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
         toolbar.setTitle(detailedProduct.getName());
         collapsingToolbarLayout.setTitle(detailedProduct.getName());
+
+//        saveDetailedProductIfNotSavedBefore(detailedProduct);
     }
 
     @Override
@@ -138,5 +148,30 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     private Product getProductFromArgs() {
         return getArguments().getParcelable(ARG_PRODUCT);
+    }
+
+    private void saveDetailedProductIfNotSavedBefore(DetailedProduct detailedProduct) {
+//        FragmentManager fragmentManager = getFragmentManager();
+//        ProductDetailsViewStateFragment viewStateFragment =
+//                (ProductDetailsViewStateFragment) fragmentManager.findFragmentByTag(TAG_VIEW_STATE);
+//
+//        if (viewStateFragment == null) {
+//            viewStateFragment = new ProductDetailsViewStateFragment();
+//            viewStateFragment.setDetailedProduct(detailedProduct);
+//            fragmentManager.beginTransaction().add(viewStateFragment, TAG_VIEW_STATE).commit();
+//        }
+    }
+
+    private DetailedProduct restoreDetailedProduct() {
+//        FragmentManager fragmentManager = getChildFragmentManager();
+//        ProductDetailsViewStateFragment viewStateFragment =
+//                (ProductDetailsViewStateFragment) fragmentManager.findFragmentByTag(TAG_VIEW_STATE);
+//
+//        if (viewStateFragment == null) {
+//            return null;
+//        } else {
+//            return viewStateFragment.getDetailedProduct();
+//        }
+        return null;
     }
 }

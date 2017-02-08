@@ -8,7 +8,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -73,7 +72,11 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
         super.onViewCreated(view, savedInstanceState);
         setupToggle();
         mvpPresenter.init(getCategoryFromArgs());
-        mvpPresenter.getCategoryProducts(); //TODO: save fragment state
+        if (productsAdapter == null) {
+            mvpPresenter.getCategoryProducts(); //TODO: save fragment state
+        } else {
+            showCategoryProducts(null);
+        }
     }
 
     @Override
@@ -86,8 +89,9 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
         rvCategoryProducts.setVisibility(View.VISIBLE);
         tvNetworkIsNotAvailable.setVisibility(View.GONE);
 
-        productsAdapter = new ProductsAdapter(products, this);
-        rvCategoryProducts.setAdapter(productsAdapter);
+        if (productsAdapter == null)
+            productsAdapter = new ProductsAdapter(products, this); //TODO: this
+        rvCategoryProducts.setAdapter(productsAdapter);//TODO: bugs after rotating
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.nodomain.mensclothingstore.ui.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -27,6 +28,12 @@ public abstract class BaseFragment<P extends MvpPresenter> extends Fragment impl
     protected P mvpPresenter;
 
     private Unbinder unbinder;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setRetainInstance(true);    //TODO: check that view recreated
+    }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {

@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             navigator.navigateToCategoriesLoadingView();
             //TODO: disable drawer
+        } else {
+            //TODO: save activity state
         }
     }
 
