@@ -4,6 +4,7 @@ package com.nodomain.mensclothingstore.ui.fragments;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -49,6 +50,12 @@ public abstract class BaseFragment<P extends MvpPresenter> extends Fragment impl
         mvpPresenter.detachMvpView();
         unbinder.unbind();
         super.onDestroyView();
+    }
+
+    protected void setTitle(String title) {
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setTitle(title);
     }
 
     private void setupActionBar() {

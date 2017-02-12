@@ -19,16 +19,7 @@ public class SingleTaskExecutor implements Executor {
     @Override
     public void execute(@NonNull Runnable command) {
         if (!thread.isAlive()) {
-            thread = new Thread(() -> {
-                synchronized (this) {
-                    try {
-                        wait(2500);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                command.run();
-            });
+            thread = new Thread(command);
             thread.start();
         }
     }

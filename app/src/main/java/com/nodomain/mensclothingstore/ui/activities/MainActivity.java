@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
 
         if (savedInstanceState == null) {
             navigator.navigateToCategoriesLoadingView();
-            //TODO: disable drawer
+            lockDrawer();
         } else if (viewStateFragment != null) {
             showSavedCategories();
         }
@@ -93,9 +93,7 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
     public void onItemClick(int position) {
         Category category = categoriesNavigationViewAdapter.getItem(position);
         mvpPresenter.getCategoryProducts(category);
-
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.closeDrawer(GravityCompat.START);
+        closeDrawer();
     }
 
     @Override
@@ -104,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
         categoriesNavigationViewAdapter.setItemChecked(0);
         navigator.navigateToCategoryProductsView(categories.get(0));
         saveCategoriesInViewState(categories);
+        unlockDrawer();
     }
 
     @Override
@@ -115,14 +114,29 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
     public void showError(Exception e) {
     }
 
-    private void disableNavigationViewVerticalScroll() {
-        navigationView.getChildAt(0).setVerticalScrollBarEnabled(false);
-    }
-
     private void initMainActivitySubComponent() {
         mainActivitySubComponent =
                 App.getApplicationComponent(getApplicationContext())
                         .plusMainActivitySubComponent(new MainActivityModule(this));
+    }
+
+    private void disableNavigationViewVerticalScroll() {
+        navigationView.getChildAt(0).setVerticalScrollBarEnabled(false);
+    }
+
+    private void lockDrawer() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
+    }
+
+    private void unlockDrawer() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+    }
+
+    private void closeDrawer() {
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout.closeDrawer(GravityCompat.START);
     }
 
     private void showSavedCategories() {

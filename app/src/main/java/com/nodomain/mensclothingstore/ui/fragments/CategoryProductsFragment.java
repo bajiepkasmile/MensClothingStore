@@ -4,9 +4,7 @@ package com.nodomain.mensclothingstore.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -71,11 +69,12 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         setupToggle();
+
         mvpPresenter.init(getCategoryFromArgs());
         if (productsAdapter == null) {
-            mvpPresenter.getCategoryProducts(); //TODO: save fragment state
+            mvpPresenter.getCategoryProducts();
         } else {
-            showCategoryProducts(null);
+            rvCategoryProducts.setAdapter(productsAdapter);
         }
     }
 
@@ -89,9 +88,8 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
         rvCategoryProducts.setVisibility(View.VISIBLE);
         tvNetworkIsNotAvailable.setVisibility(View.GONE);
 
-        if (productsAdapter == null)
-            productsAdapter = new ProductsAdapter(products, this); //TODO: this
-        rvCategoryProducts.setAdapter(productsAdapter);//TODO: bugs after rotating
+        productsAdapter = new ProductsAdapter(products, this);
+        rvCategoryProducts.setAdapter(productsAdapter);
     }
 
     @Override
@@ -125,12 +123,6 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
 
     private Category getCategoryFromArgs() {
         return getArguments().getParcelable(ARG_CATEGORY);
-    }
-
-    private void setTitle(String title) {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null)
-            actionBar.setTitle(title);
     }
 
     private void setupToggle() {
