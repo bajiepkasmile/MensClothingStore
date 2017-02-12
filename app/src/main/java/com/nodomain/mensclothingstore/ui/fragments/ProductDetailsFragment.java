@@ -4,7 +4,6 @@ package com.nodomain.mensclothingstore.ui.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -36,7 +35,6 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         implements ProductDetailsMvpView {
 
     private static final String ARG_PRODUCT = "product";
-    private static final String TAG_VIEW_STATE = "view_state";
 
     @BindView(R.id.collapsing_toolbar_layout)
     CollapsingToolbarLayout collapsingToolbarLayout;
@@ -113,8 +111,6 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
         toolbar.setTitle(detailedProduct.getName());
         collapsingToolbarLayout.setTitle(detailedProduct.getName());
-
-//        saveDetailedProductIfNotSavedBefore(detailedProduct);
     }
 
     @Override
@@ -148,30 +144,5 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     private Product getProductFromArgs() {
         return getArguments().getParcelable(ARG_PRODUCT);
-    }
-
-    private void saveDetailedProductIfNotSavedBefore(DetailedProduct detailedProduct) {
-//        FragmentManager fragmentManager = getFragmentManager();
-//        ProductDetailsViewStateFragment viewStateFragment =
-//                (ProductDetailsViewStateFragment) fragmentManager.findFragmentByTag(TAG_VIEW_STATE);
-//
-//        if (viewStateFragment == null) {
-//            viewStateFragment = new ProductDetailsViewStateFragment();
-//            viewStateFragment.setDetailedProduct(detailedProduct);
-//            fragmentManager.beginTransaction().add(viewStateFragment, TAG_VIEW_STATE).commit();
-//        }
-    }
-
-    private DetailedProduct restoreDetailedProduct() {
-//        FragmentManager fragmentManager = getChildFragmentManager();
-//        ProductDetailsViewStateFragment viewStateFragment =
-//                (ProductDetailsViewStateFragment) fragmentManager.findFragmentByTag(TAG_VIEW_STATE);
-//
-//        if (viewStateFragment == null) {
-//            return null;
-//        } else {
-//            return viewStateFragment.getDetailedProduct();
-//        }
-        return null;
     }
 }

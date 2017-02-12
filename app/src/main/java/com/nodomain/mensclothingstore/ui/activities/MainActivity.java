@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.mvp.presenters.MainMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.MainMvpView;
 import com.nodomain.mensclothingstore.navigation.MainNavigator;
+import com.nodomain.mensclothingstore.ui.activities.state.MainViewStateFragment;
 import com.nodomain.mensclothingstore.ui.adapters.CategoriesNavigationViewAdapter;
 import com.nodomain.mensclothingstore.ui.listeners.OnItemClickListener;
 
@@ -28,8 +30,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends AppCompatActivity
-        implements MainMvpView, OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements MainMvpView, OnItemClickListener {
+
+    private static final String TAG_VIEW_STATE = "view_state";
 
     @BindView(R.id.navigation_view)
     NavigationView navigationView;
@@ -40,7 +43,9 @@ public class MainActivity extends AppCompatActivity
     MainNavigator navigator;
 
     private MainActivitySubComponent mainActivitySubComponent;
+    private FragmentManager fragmentManager;
     private CategoriesNavigationViewAdapter categoriesNavigationViewAdapter;
+    private MainViewStateFragment viewStateFragment;
 
     public static MainActivitySubComponent getMainActivitySubComponent(Activity activity) {
         return ((MainActivity) activity).mainActivitySubComponent;
@@ -57,11 +62,14 @@ public class MainActivity extends AppCompatActivity
         mainActivitySubComponent.inject(this);
         mvpPresenter.attachMvpView(this);
 
+        fragmentManager = getSupportFragmentManager();
+        viewStateFragment = (MainViewStateFragment) fragmentManager.findFragmentByTag(TAG_VIEW_STATE);
+
         if (savedInstanceState == null) {
             navigator.navigateToCategoriesLoadingView();
             //TODO: disable drawer
-        } else {
-            //TODO: save activity state
+        } else if (viewStateFragment != null) {
+            showSavedCategories();
         }
     }
 
@@ -95,6 +103,7 @@ public class MainActivity extends AppCompatActivity
         categoriesNavigationViewAdapter = new CategoriesNavigationViewAdapter(categories, navigationView, this);
         categoriesNavigationViewAdapter.setItemChecked(0);
         navigator.navigateToCategoryProductsView(categories.get(0));
+        saveCategoriesInViewState(categories);
     }
 
     @Override
@@ -114,5 +123,18 @@ public class MainActivity extends AppCompatActivity
         mainActivitySubComponent =
                 App.getApplicationComponent(getApplicationContext())
                         .plusMainActivitySubComponent(new MainActivityModule(this));
+    }
+
+    private void showSavedCategories() {
+        List<Category> categories = viewStateFragment.getCategories();
+        categoriesNavigationViewAdapter = new CategoriesNavigationViewAdapter(categories, navigationView, this);
+    }
+
+    private void saveCategoriesInViewState(List<Category> categories) {
+        if (viewStateFragment == null) {
+            viewStateFragment = new MainViewStateFragment();
+            fragmentManager.beginTransaction().add(viewStateFragment, TAG_VIEW_STATE).commit();
+        }
+        viewStateFragment.setCategories(categories);
     }
 }
