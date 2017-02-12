@@ -33,7 +33,7 @@ public class GetCategoriesInteractor extends BaseInteractor {
     public void execute() {
         inBackground(() -> {
             try {
-//                networkUtil.checkNetworkIsAvailable();
+                networkUtil.checkNetworkIsAvailable();
                 List<Category> categories = categoriesRemoteStorage.getCategories();
                 onMainThread(() -> postStickyEvent(new OnGetCategoriesSuccessEvent(categories)));
             } catch (Exception e) {

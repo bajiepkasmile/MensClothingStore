@@ -133,7 +133,7 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
                 toolbar,
                 R.string.content_desc_open_drawer,
                 R.string.content_desc_close_drawer);
-        drawerLayout.addDrawerListener(toggle); //TODO: remove drawer listener?
+        drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
     }
 }

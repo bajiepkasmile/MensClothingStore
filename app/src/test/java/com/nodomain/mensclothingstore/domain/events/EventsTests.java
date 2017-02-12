@@ -2,7 +2,6 @@ package com.nodomain.mensclothingstore.domain.events;
 
 
 import com.nodomain.mensclothingstore.model.Category;
-import com.nodomain.mensclothingstore.model.DetailedProduct;
 import com.nodomain.mensclothingstore.model.Product;
 
 import org.junit.Test;
@@ -49,19 +48,5 @@ public class EventsTests {
         OnGetCategoryProductsSuccessEvent event = new OnGetCategoryProductsSuccessEvent(products);
 
         assertEquals(products, event.getCategoryProducts());
-    }
-
-    @Test
-    public void creatingOnGetDetailedProductFailureEventIsCorrect() {
-        OnGetDetailedProductFailureEvent event = new OnGetDetailedProductFailureEvent(exception);
-        assertEquals(exception, event.getException());
-    }
-
-    @Test
-    public void creatingOnGetDetailedProductSuccessEvent() {
-        DetailedProduct detailedProduct = new DetailedProduct(1, 1, "name", 100, "url", "desc");
-        OnGetDetailedProductSuccessEvent event = new OnGetDetailedProductSuccessEvent(detailedProduct);
-
-        assertEquals(detailedProduct, event.getDetailedProduct());
     }
 }

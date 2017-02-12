@@ -4,11 +4,12 @@ package com.nodomain.mensclothingstore.di.modules;
 import android.os.Handler;
 
 import com.nodomain.mensclothingstore.data.datasources.remote.CategoriesRemoteStorage;
+import com.nodomain.mensclothingstore.data.datasources.remote.CommentsRemoteStorage;
 import com.nodomain.mensclothingstore.data.datasources.remote.ProductsRemoteStorage;
 import com.nodomain.mensclothingstore.domain.exectutors.SingleTaskExecutor;
 import com.nodomain.mensclothingstore.domain.interactors.GetCategoriesInteractor;
 import com.nodomain.mensclothingstore.domain.interactors.GetCategoryProductsInteractor;
-import com.nodomain.mensclothingstore.domain.interactors.GetDetailedProductInteractor;
+import com.nodomain.mensclothingstore.domain.interactors.GetProductCommentsInteractor;
 import com.nodomain.mensclothingstore.utils.NetworkUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -44,11 +45,11 @@ public class InteractorsModule {
 
     @Singleton
     @Provides
-    GetDetailedProductInteractor provideGetDetailedProductsInteractor(SingleTaskExecutor executor,
+    GetProductCommentsInteractor provideGetProductCommentsInteractor(SingleTaskExecutor executor,
                                                                       Handler mainThreadHandler,
                                                                       EventBus eventBus,
-                                                                      ProductsRemoteStorage storage,
+                                                                      CommentsRemoteStorage storage,
                                                                       NetworkUtil networkUtil) {
-        return new GetDetailedProductInteractor(executor, mainThreadHandler, eventBus, storage, networkUtil);
+        return new GetProductCommentsInteractor(executor, mainThreadHandler, eventBus, storage, networkUtil);
     }
 }

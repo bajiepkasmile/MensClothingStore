@@ -1,9 +1,9 @@
 package com.nodomain.mensclothingstore.mvp.presentersimpl;
 
 
-import com.nodomain.mensclothingstore.domain.events.OnGetDetailedProductFailureEvent;
-import com.nodomain.mensclothingstore.domain.events.OnGetDetailedProductSuccessEvent;
-import com.nodomain.mensclothingstore.domain.interactors.GetDetailedProductInteractor;
+import com.nodomain.mensclothingstore.domain.events.OnGetProductCommentsFailureEvent;
+import com.nodomain.mensclothingstore.domain.events.OnGetProductCommentsSuccessEvent;
+import com.nodomain.mensclothingstore.domain.interactors.GetProductCommentsInteractor;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
@@ -17,19 +17,27 @@ import javax.inject.Inject;
 public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<ProductDetailsMvpView>
         implements ProductDetailsMvpPresenter {
 
-    private final GetDetailedProductInteractor getDetailedProductInteractor;
+    private final GetProductCommentsInteractor getProductCommentsInteractor;
+
+    private Product product;
 
     @Inject
     public ProductDetailsMvpPresenterImpl(EventBus eventBus,
-                                          GetDetailedProductInteractor getDetailedProductInteractor) {
+                                          GetProductCommentsInteractor getProductCommentsInteractor) {
         super(eventBus);
-        this.getDetailedProductInteractor = getDetailedProductInteractor;
+        this.getProductCommentsInteractor = getProductCommentsInteractor;
     }
 
     @Override
-    public void getProductDetails(Product product) {
-        mvpView.showLoadingProgress();
-        getDetailedProductInteractor.execute(product);
+    public void init(Product product) {
+        this.product = product;
+        mvpView.showProduct(product);
+    }
+
+    @Override
+    public void getProductComments() {
+        mvpView.showCommentsLoadingProgress();
+        getProductCommentsInteractor.execute(product);
     }
 
     @Override
@@ -38,16 +46,16 @@ public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<Product
     }
 
     @Subscribe
-    public void onGetDetailedProductSuccess(OnGetDetailedProductSuccessEvent event) {
-        mvpView.hideLoadingProgress();
-        mvpView.showDetailedProduct(event.getDetailedProduct());
+    public void onGetProductCommentsSuccess(OnGetProductCommentsSuccessEvent event) {
+        mvpView.hideCommentsLoadingProgress();
+        mvpView.showProductComments(event.getComments());
 
         removeStickyEvent(event);
     }
 
     @Subscribe
-    public void onGetDetailedProductFailure(OnGetDetailedProductFailureEvent event) {
-        mvpView.hideLoadingProgress();
+    public void onGetProductCommentsFailure(OnGetProductCommentsFailureEvent event) {
+        mvpView.hideCommentsLoadingProgress();
         mvpView.showError(event.getException());
 
         removeStickyEvent(event);

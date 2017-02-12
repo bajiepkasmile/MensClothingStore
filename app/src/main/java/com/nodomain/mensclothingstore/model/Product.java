@@ -12,13 +12,15 @@ public class Product implements Parcelable {
     private String name;
     private int price;
     private String imageUrl;
+    private String description;
 
-    public Product(long id, int categoryId, String name, int price, String imageUrl) {
+    public Product(long id, int categoryId, String name, int price, String imageUrl, String description) {
         this.id = id;
         this.categoryId = categoryId;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+        this.description = description;
     }
 
     protected Product(Parcel in) {
@@ -27,9 +29,11 @@ public class Product implements Parcelable {
         name = in.readString();
         price = in.readInt();
         imageUrl = in.readString();
+        description = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
+
         @Override
         public Product createFromParcel(Parcel in) {
             return new Product(in);
@@ -48,6 +52,7 @@ public class Product implements Parcelable {
         dest.writeString(name);
         dest.writeInt(price);
         dest.writeString(imageUrl);
+        dest.writeString(description);
     }
 
     @Override
@@ -89,5 +94,9 @@ public class Product implements Parcelable {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public String getDescription() {
+        return description;
     }
 }

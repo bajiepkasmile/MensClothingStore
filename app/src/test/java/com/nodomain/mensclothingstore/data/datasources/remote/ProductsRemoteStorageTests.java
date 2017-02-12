@@ -1,9 +1,7 @@
 package com.nodomain.mensclothingstore.data.datasources.remote;
 
 
-import com.nodomain.mensclothingstore.domain.exceptions.InvalidProductIdException;
 import com.nodomain.mensclothingstore.model.Category;
-import com.nodomain.mensclothingstore.model.DetailedProduct;
 import com.nodomain.mensclothingstore.model.Product;
 
 import org.junit.Test;
@@ -16,14 +14,8 @@ import static junit.framework.Assert.*;
 public class ProductsRemoteStorageTests {
 
     private ProductsRemoteStorage productsRemoteStorage = new ProductsRemoteStorage();
-    private Product productWithValidId = new Product(0, 0, "name", 100, "url");
-    private Product productWithInvalidId = new Product(100, 0, "name", 100, "url");
-
-    @Test
-    public void gottenAllProductsSizeIsNotZero() {
-        List<Product> allProducts = productsRemoteStorage.getAllProducts();
-        assertTrue(allProducts.size() > 0);
-    }
+    private Product productWithValidId = new Product(0, 0, "name", 100, "url", "desc");
+    private Product productWithInvalidId = new Product(100, 0, "name", 100, "url", "desc");
 
     @Test
     public void gottenCategoryProductsSizeIsNotZero() {
@@ -41,17 +33,5 @@ public class ProductsRemoteStorageTests {
         for (Product product : productsFromCategory)
             if (product.getCategoryId() != category.getId())
                 fail();
-    }
-
-    @Test
-    public void gettingDetailedProductWithValidIdIsCorrect() {
-        DetailedProduct detailedProduct = productsRemoteStorage.getDetailedProduct(productWithValidId);
-        assertEquals(productWithValidId.getId(), detailedProduct.getId());
-    }
-
-    @Test(expected = InvalidProductIdException.class)
-    public void gettingDetailedProductWithInvalidIdThrowsException() {
-        productsRemoteStorage.getDetailedProduct(productWithInvalidId);
-        fail();
     }
 }

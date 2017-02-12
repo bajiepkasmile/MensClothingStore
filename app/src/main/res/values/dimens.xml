@@ -16,14 +16,14 @@
     <dimen name="font_small">14sp</dimen>
 
     <!--Specific dimens-->
-    <dimen name="toolbar_elevation">4dp</dimen>
-    <dimen name="product_item_height">200dp</dimen>
     <dimen name="card_corner">4dp</dimen>
-    <dimen name="card_elevation">4dp</dimen>
-    <dimen name="app_bar_layout_height">200dp</dimen>
+    <dimen name="elevation_toolbar">4dp</dimen>
+    <dimen name="elevation_card">2dp</dimen>
+    <dimen name="height_product_item">200dp</dimen>
+    <dimen name="height_detailed_product_image">350dp</dimen>
     <dimen name="height_header_navigation">160dp</dimen>
-    <dimen name="pb_loading_comments_size">32dp</dimen>
-    <dimen name="pb_loading_categories_size">48dp</dimen>
-    <dimen name="pb_loading_products_size">48dp</dimen>
+    <dimen name="size_pb_loading_comments">32dp</dimen>
+    <dimen name="size_pb_loading_categories">48dp</dimen>
+    <dimen name="size_pb_loading_products">48dp</dimen>
 
 </resources>

@@ -15,7 +15,8 @@ public class ProductTests {
         String name = "mame";
         int price = 153;
         String imageUrl = "imageUrl";
-        Product product = new Product(id, categoryId, name, price, imageUrl);
+        String description = "desc";
+        Product product = new Product(id, categoryId, name, price, imageUrl, description);
 
         assertEquals(id, product.getId());
         assertEquals(categoryId, product.getCategoryId());
@@ -26,16 +27,16 @@ public class ProductTests {
 
     @Test
     public void productsWithSameIdAreEquals() {
-        Product product1 = new Product(1, 1, "name1", 100, "url1");
-        Product product2 = new Product(1, 2, "name2", 200, "url2");
+        Product product1 = new Product(1, 1, "name1", 100, "url1", "desc1");
+        Product product2 = new Product(1, 2, "name2", 200, "url2", "desc2");
 
         assertTrue(product1.equals(product2));
     }
 
     @Test
     public void productsWithDifferentIdAreNotEquals() {
-        Product product1 = new Product(1, 1, "name1", 100, "url1");
-        Product product2 = new Product(2, 2, "name2", 200, "url2");
+        Product product1 = new Product(1, 1, "name1", 100, "url1", "desc1");
+        Product product2 = new Product(2, 2, "name2", 200, "url2", "desc2");
 
         assertFalse(product1.equals(product2));
     }

@@ -3,9 +3,9 @@ package com.nodomain.mensclothingstore.ui.fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,18 +13,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.nodomain.mensclothingstore.R;
-import com.nodomain.mensclothingstore.model.DetailedProduct;
+import com.nodomain.mensclothingstore.model.Comment;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
 import com.nodomain.mensclothingstore.navigation.ProductDetailsNavigator;
 import com.nodomain.mensclothingstore.ui.activities.MainActivity;
-import com.nodomain.mensclothingstore.utils.ErrorUtil;
-import com.nodomain.mensclothingstore.utils.ToastUtil;
+import com.nodomain.mensclothingstore.ui.recyclerviews.adapters.CommentsAdapter;
 import com.squareup.picasso.Picasso;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -36,25 +36,25 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     private static final String ARG_PRODUCT = "product";
 
-    @BindView(R.id.collapsing_toolbar_layout)
-    CollapsingToolbarLayout collapsingToolbarLayout;
     @BindView(R.id.iv_image)
     ImageView ivImage;
     @BindView(R.id.tv_price)
     TextView tvPrice;
     @BindView(R.id.tv_description)
     TextView tvDescription;
-    @BindView(R.id.pb_loading_details)
-    ProgressBar pbLoadingDetails;
+    @BindView(R.id.pb_loading_comments)
+    ProgressBar pbLoadingComments;
+    @BindView(R.id.tv_network_is_not_available)
+    TextView tvNetworkIsNotAvailable;
+    @BindView(R.id.tv_no_comments)
+    TextView tvNoComments;
+    @BindView(R.id.rv_comments)
+    RecyclerView rvComments;
 
     @Inject
     ProductDetailsNavigator navigator;
-    @Inject
-    ToastUtil toastUtil;
-    @Inject
-    ErrorUtil errorUtil;
 
-    private DetailedProduct detailedProduct;
+    private CommentsAdapter commentsAdapter;
 
     public static ProductDetailsFragment newInstance(Product product) {
         ProductDetailsFragment fragment = new ProductDetailsFragment();
@@ -78,10 +78,11 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         super.onViewCreated(view, savedInstanceState);
         displayHomeButton();
 
-        if (detailedProduct == null) {
-            mvpPresenter.getProductDetails(getProductFromArgs());
+        mvpPresenter.init(getProductFromArgs());
+        if (commentsAdapter == null) {
+            mvpPresenter.getProductComments();
         } else {
-            showDetailedProduct(detailedProduct);
+            rvComments.setAdapter(commentsAdapter);
         }
     }
 
@@ -96,31 +97,37 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     }
 
     @Override
-    public void showDetailedProduct(DetailedProduct detailedProduct) {
-        this.detailedProduct = detailedProduct;
-        String formattedPrice = String.format(getString(R.string.currency), detailedProduct.getPrice());
-        String formattedDescription =
-                String.format(getString(R.string.description), detailedProduct.getDescription());
+    public void showProduct(Product product) {
+        String formattedPrice = String.format(getString(R.string.price), product.getPrice());
 
+        setTitle(product.getName());
         tvPrice.setText(formattedPrice);
-        tvDescription.setText(formattedDescription);
+        tvDescription.setText(product.getDescription());
 
         Picasso.with(getActivity())
-                .load(detailedProduct.getImageUrl())
+                .load(product.getImageUrl())
                 .into(ivImage);
-
-        toolbar.setTitle(detailedProduct.getName());
-        collapsingToolbarLayout.setTitle(detailedProduct.getName());
     }
 
     @Override
-    public void showLoadingProgress() {
-        pbLoadingDetails.setVisibility(View.VISIBLE);
+    public void showProductComments(List<Comment> comments) {
+        if (comments.size() == 0) {
+            tvNoComments.setVisibility(View.VISIBLE);
+            return;
+        }
+
+        commentsAdapter = new CommentsAdapter(comments);
+        rvComments.setAdapter(commentsAdapter);
     }
 
     @Override
-    public void hideLoadingProgress() {
-        pbLoadingDetails.setVisibility(View.GONE);
+    public void showCommentsLoadingProgress() {
+        pbLoadingComments.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideCommentsLoadingProgress() {
+        pbLoadingComments.setVisibility(View.GONE);
     }
 
     @Override
@@ -130,9 +137,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     @Override
     public void showError(Exception e) {
-        String errorMessage = errorUtil.exceptionToErrorMessage(e);
-        Toast toast = toastUtil.createCenteredToast(errorMessage);
-        toast.show();
+        tvNetworkIsNotAvailable.setVisibility(View.VISIBLE);
     }
 
     private void displayHomeButton() {

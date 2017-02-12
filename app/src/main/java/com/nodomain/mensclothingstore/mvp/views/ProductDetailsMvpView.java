@@ -1,16 +1,21 @@
 package com.nodomain.mensclothingstore.mvp.views;
 
 
-import com.nodomain.mensclothingstore.model.DetailedProduct;
+import com.nodomain.mensclothingstore.model.Comment;
+import com.nodomain.mensclothingstore.model.Product;
+
+import java.util.List;
 
 
 public interface ProductDetailsMvpView extends MvpView {
 
-    void showDetailedProduct(DetailedProduct detailedProduct);
+    void showProduct(Product product);
 
-    void showLoadingProgress();
+    void showProductComments(List<Comment> comments);
 
-    void hideLoadingProgress();
+    void showCommentsLoadingProgress();
+
+    void hideCommentsLoadingProgress();
 
     void showPreviousView();
 }

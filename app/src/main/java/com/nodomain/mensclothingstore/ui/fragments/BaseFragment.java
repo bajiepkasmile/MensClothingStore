@@ -33,7 +33,7 @@ public abstract class BaseFragment<P extends MvpPresenter> extends Fragment impl
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRetainInstance(true);    //TODO: check that view recreated
+        setRetainInstance(true);
     }
 
     @Override
@@ -54,8 +54,9 @@ public abstract class BaseFragment<P extends MvpPresenter> extends Fragment impl
 
     protected void setTitle(String title) {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null)
+        if (actionBar != null) {
             actionBar.setTitle(title);
+        }
     }
 
     private void setupActionBar() {

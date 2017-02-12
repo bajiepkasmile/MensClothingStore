@@ -36,7 +36,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductViewHolder> {
     public void onBindViewHolder(ProductViewHolder holder, int position) {
         Context context = holder.ivImage.getContext();
         Product product = products.get(position);
-        String formattedPrice = String.format(context.getString(R.string.currency), product.getPrice());
+        String formattedPrice = String.format(context.getString(R.string.price), product.getPrice());
 
         holder.tvName.setText(product.getName());
         holder.tvPrice.setText(formattedPrice);
