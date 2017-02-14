@@ -35,6 +35,10 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         holder.tvName.setText(comment.getSenderName());
         holder.tvTime.setText(comment.getSentTime() + "");
         holder.tvText.setText(comment.getText());
+
+        if (position == getItemCount() - 1) {
+            holder.divider.setVisibility(View.GONE);
+        }
     }
 
     @Override

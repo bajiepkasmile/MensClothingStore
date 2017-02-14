@@ -19,6 +19,8 @@ public class CommentViewHolder extends RecyclerView.ViewHolder {
     public TextView tvTime;
     @BindView(R.id.tv_text)
     public TextView tvText;
+    @BindView(R.id.divider)
+    public View divider;
 
     public CommentViewHolder(View itemView) {
         super(itemView);
