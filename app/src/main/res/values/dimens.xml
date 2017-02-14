@@ -22,6 +22,7 @@
     <dimen name="height_product_item">200dp</dimen>
     <dimen name="height_detailed_product_image">350dp</dimen>
     <dimen name="height_header_navigation">160dp</dimen>
+    <dimen name="height_tv_comment">56dp</dimen>
     <dimen name="size_pb_loading_comments">32dp</dimen>
     <dimen name="size_pb_loading_categories">48dp</dimen>
     <dimen name="size_pb_loading_products">48dp</dimen>

@@ -1,6 +1,7 @@
 package com.nodomain.mensclothingstore.ui.fragments;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -10,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
+import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,7 +24,11 @@ import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
 import com.nodomain.mensclothingstore.navigation.ProductDetailsNavigator;
 import com.nodomain.mensclothingstore.ui.activities.MainActivity;
+import com.nodomain.mensclothingstore.ui.adapters.ListenableScrollView;
+import com.nodomain.mensclothingstore.ui.animations.ProductDetailsAnimations;
+import com.nodomain.mensclothingstore.ui.listeners.OnScrollPositionChangeListener;
 import com.nodomain.mensclothingstore.ui.recyclerviews.adapters.CommentsAdapter;
+import com.nodomain.mensclothingstore.utils.DisplayUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -32,7 +39,7 @@ import butterknife.BindView;
 
 
 public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresenter>
-        implements ProductDetailsMvpView {
+        implements ProductDetailsMvpView, OnScrollPositionChangeListener {
 
     private static final String ARG_PRODUCT = "product";
 
@@ -50,11 +57,21 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     TextView tvNoComments;
     @BindView(R.id.rv_comments)
     RecyclerView rvComments;
+    @BindView(R.id.scroll_view)
+    ListenableScrollView scrollView;
+    @BindView(R.id.tv_comment)
+    TextView tvComment;
 
     @Inject
     ProductDetailsNavigator navigator;
+    @Inject
+    ProductDetailsAnimations animations;
+    @Inject
+    DisplayUtil displayUtil;
 
     private CommentsAdapter commentsAdapter;
+    private float tvCommentHideBound;
+    private boolean tvCommentIsHidden = true;
 
     public static ProductDetailsFragment newInstance(Product product) {
         ProductDetailsFragment fragment = new ProductDetailsFragment();
@@ -76,7 +93,12 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        animations.bind(view);
+
         displayHomeButton();
+        setTvCommentOnGlobalLayoutListener();
+        scrollView.setOnScrollPositionChangeListener(this);
+        tvCommentHideBound = displayUtil.getDisplayHeight() - getTvCommentHeightFromRes();
 
         mvpPresenter.init(getProductFromArgs());
         if (commentsAdapter == null) {
@@ -84,6 +106,12 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         } else {
             rvComments.setAdapter(commentsAdapter);
         }
+    }
+
+    @Override
+    public void onDestroyView() {
+        animations.unbind();
+        super.onDestroyView();
     }
 
     @Override
@@ -140,6 +168,35 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         tvNetworkIsNotAvailable.setVisibility(View.VISIBLE);
     }
 
+    @Override
+    public void onScrollPositionChange() {
+        int y = getRvCommentsLocationY();
+
+        if (needToShowTvComment(y)) {
+            showTvComment();
+        } else if (needToHideTvComment(y)) {
+            hideTvComment();
+        }
+    }
+
+    private boolean needToShowTvComment(int rvCommentsLocationY) {
+        return (rvCommentsLocationY < tvCommentHideBound) && tvCommentIsHidden;
+    }
+
+    private boolean needToHideTvComment(int rvCommentsLocationY) {
+        return (rvCommentsLocationY > tvCommentHideBound) && !tvCommentIsHidden;
+    }
+
+    private void showTvComment() {
+        tvCommentIsHidden = false;
+        animations.showTvComment();
+    }
+
+    private void hideTvComment() {
+        tvCommentIsHidden = true;
+        animations.hideTvComment();
+    }
+
     private void displayHomeButton() {
         ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
         if (actionBar != null) {
@@ -149,5 +206,33 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     private Product getProductFromArgs() {
         return getArguments().getParcelable(ARG_PRODUCT);
+    }
+
+    private int getRvCommentsLocationY() {
+        int[] location = new int[]{0,0};
+        rvComments.getLocationOnScreen(location);
+        return location[1];
+    }
+
+    private float getTvCommentHeightFromRes() {
+        return getResources().getDimension(R.dimen.height_tv_comment);
+    }
+
+    private void setTvCommentOnGlobalLayoutListener() {
+        tvComment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                tvComment.setTranslationY(tvComment.getHeight());
+                removeOnGlobalLayoutListener(this);
+            }
+        });
+    }
+
+    private void removeOnGlobalLayoutListener(OnGlobalLayoutListener listener) {
+        if (Build.VERSION.SDK_INT > 15) {
+            tvComment.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+        } else {
+            tvComment.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+        }
     }
 }

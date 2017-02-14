@@ -8,6 +8,7 @@
     <string name="description">Описание:</string>
     <string name="comments">Комментарии:</string>
     <string name="no_comments">Нет комментариев</string>
+    <string name="add_comment">Добавить комментарий</string>
 
     <!--Errors-->
     <string name="error.network_is_not_available">Нет подключения к сети</string>
