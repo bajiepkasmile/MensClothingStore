@@ -121,7 +121,6 @@
             android:layout_marginRight="@dimen/spacing_small"
             android:nestedScrollingEnabled="false"
             app:layoutManager="LinearLayoutManager"
-            tools:visibility="visible"
             />
 
     </LinearLayout>

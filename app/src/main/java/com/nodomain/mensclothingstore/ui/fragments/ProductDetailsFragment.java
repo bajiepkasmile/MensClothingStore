@@ -71,7 +71,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     private CommentsAdapter commentsAdapter;
     private float tvCommentHideBound;
-    private boolean tvCommentIsHidden = true;
+    private boolean tvCommentIsHidden;
 
     public static ProductDetailsFragment newInstance(Product product) {
         ProductDetailsFragment fragment = new ProductDetailsFragment();
@@ -190,7 +190,7 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     }
 
     private boolean needToShowTvAddComment(int rvCommentsLocationY) {
-        return (rvCommentsLocationY < tvCommentHideBound) && tvCommentIsHidden;
+        return (rvCommentsLocationY <= tvCommentHideBound) && tvCommentIsHidden;
     }
 
     private boolean needToHideTvAddComment(int rvCommentsLocationY) {
@@ -225,7 +225,10 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         tvAddComment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                tvAddComment.setTranslationY(tvAddComment.getHeight());
+                tvCommentIsHidden = false;
+                if (needToHideTvAddComment(getRvCommentsLocationY())) {
+                    tvAddComment.setTranslationY(tvAddComment.getHeight());
+                }
                 removeOnGlobalLayoutListener(this);
             }
         });

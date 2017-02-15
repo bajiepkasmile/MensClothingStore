@@ -1,13 +1,16 @@
 package com.nodomain.mensclothingstore.model;
 
 
+import java.util.Calendar;
+
+
 public class Comment {
 
     private String senderName;
-    private long sentTime;
+    private Calendar sentTime;
     private String text;
 
-    public Comment(String senderName, long sentTime, String text) {
+    public Comment(String senderName, Calendar sentTime, String text) {
         this.senderName = senderName;
         this.sentTime = sentTime;
         this.text = text;
@@ -17,7 +20,7 @@ public class Comment {
         return senderName;
     }
 
-    public long getSentTime() {
+    public Calendar getSentTime() {
         return sentTime;
     }
 
