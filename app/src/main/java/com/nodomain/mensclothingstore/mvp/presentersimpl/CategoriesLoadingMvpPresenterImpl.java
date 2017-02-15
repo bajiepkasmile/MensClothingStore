@@ -33,6 +33,6 @@ public class CategoriesLoadingMvpPresenterImpl extends BaseMvpPresenterImpl<Cate
     @Subscribe
     public void onGetCategoriesFailure(OnGetCategoriesFailureEvent event) {
         mvpView.hideCategoriesLoadingProgress();
-        mvpView.showError(event.getException());
+        mvpView.showError(event.getError());
     }
 }

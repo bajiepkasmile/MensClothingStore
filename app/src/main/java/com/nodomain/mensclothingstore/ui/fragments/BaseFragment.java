@@ -62,4 +62,11 @@ public abstract class BaseFragment<P extends MvpPresenter> extends Fragment impl
     private void setupActionBar() {
         ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
     }
+
+    protected void displayHomeButton() {
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+        }
+    }
 }

@@ -4,9 +4,9 @@ package com.nodomain.mensclothingstore.domain.events;
 import com.nodomain.mensclothingstore.domain.Error;
 
 
-public class OnGetCategoryProductsFailureEvent extends BaseFailureEvent {
+public class OnAddCommentToProductFailureEvent extends BaseFailureEvent {
 
-    public OnGetCategoryProductsFailureEvent(Error error) {
+    public OnAddCommentToProductFailureEvent(Error error) {
         super(error);
     }
 }

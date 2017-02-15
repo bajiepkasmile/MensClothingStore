@@ -28,4 +28,10 @@ public class CommentsRemoteStorage {
             return Collections.emptyList();
         }
     }
+
+    public Comment addCommentToProduct(String senderName, String text, Product product) {
+        Comment comment = new Comment(senderName, 5232234, text);
+        comments.add(comment);
+        return comment;
+    }
 }

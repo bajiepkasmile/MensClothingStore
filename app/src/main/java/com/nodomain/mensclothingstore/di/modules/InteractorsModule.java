@@ -7,6 +7,7 @@ import com.nodomain.mensclothingstore.data.datasources.remote.CategoriesRemoteSt
 import com.nodomain.mensclothingstore.data.datasources.remote.CommentsRemoteStorage;
 import com.nodomain.mensclothingstore.data.datasources.remote.ProductsRemoteStorage;
 import com.nodomain.mensclothingstore.domain.exectutors.SingleTaskExecutor;
+import com.nodomain.mensclothingstore.domain.interactors.AddCommentToProductInteractor;
 import com.nodomain.mensclothingstore.domain.interactors.GetCategoriesInteractor;
 import com.nodomain.mensclothingstore.domain.interactors.GetCategoryProductsInteractor;
 import com.nodomain.mensclothingstore.domain.interactors.GetProductCommentsInteractor;
@@ -51,5 +52,15 @@ public class InteractorsModule {
                                                                       CommentsRemoteStorage storage,
                                                                       NetworkUtil networkUtil) {
         return new GetProductCommentsInteractor(executor, mainThreadHandler, eventBus, storage, networkUtil);
+    }
+
+    @Singleton
+    @Provides
+    AddCommentToProductInteractor provideAddCommentToProductInteractor(SingleTaskExecutor executor,
+                                                                       Handler mainThreadHandler,
+                                                                       EventBus eventBus,
+                                                                       CommentsRemoteStorage storage,
+                                                                       NetworkUtil networkUtil) {
+        return new AddCommentToProductInteractor(executor, mainThreadHandler, eventBus, storage, networkUtil);
     }
 }

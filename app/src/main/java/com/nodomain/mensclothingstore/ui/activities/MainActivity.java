@@ -14,6 +14,7 @@ import com.nodomain.mensclothingstore.App;
 import com.nodomain.mensclothingstore.R;
 import com.nodomain.mensclothingstore.di.components.MainActivitySubComponent;
 import com.nodomain.mensclothingstore.di.modules.MainActivityModule;
+import com.nodomain.mensclothingstore.domain.Error;
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.mvp.presenters.MainMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.MainMvpView;
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
     }
 
     @Override
-    public void showError(Exception e) {
+    public void showError(Error error) {
     }
 
     private void initMainActivitySubComponent() {

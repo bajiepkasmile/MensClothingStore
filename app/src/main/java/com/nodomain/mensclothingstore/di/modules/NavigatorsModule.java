@@ -1,6 +1,7 @@
 package com.nodomain.mensclothingstore.di.modules;
 
 
+import com.nodomain.mensclothingstore.navigation.AddCommentToProductNavigator;
 import com.nodomain.mensclothingstore.navigation.CategoryProductsNavigator;
 import com.nodomain.mensclothingstore.navigation.MainNavigator;
 import com.nodomain.mensclothingstore.navigation.ProductDetailsNavigator;
@@ -19,6 +20,11 @@ public class NavigatorsModule {
 
     @Provides
     ProductDetailsNavigator provideProductDetailsNavigator(MainNavigator mainNavigator) {
+        return mainNavigator;
+    }
+
+    @Provides
+    AddCommentToProductNavigator provideAddCommentNavigator(MainNavigator mainNavigator) {
         return mainNavigator;
     }
 }

@@ -30,9 +30,9 @@
     </com.nodomain.mensclothingstore.ui.adapters.ListenableScrollView>
 
     <TextView
-        android:id="@+id/tv_comment"
+        android:id="@+id/tv_add_comment"
         android:layout_width="0dp"
-        android:layout_height="@dimen/height_tv_comment"
+        android:layout_height="@dimen/height_tv_add_comment"
         android:layout_gravity="bottom"
         android:background="@color/gray_dark"
         android:text="@string/add_comment"

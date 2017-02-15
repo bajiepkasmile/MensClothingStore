@@ -13,6 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nodomain.mensclothingstore.R;
+import com.nodomain.mensclothingstore.domain.Error;
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.CategoryProductsMvpPresenter;
@@ -110,7 +111,7 @@ public class CategoryProductsFragment extends BaseFragment<CategoryProductsMvpPr
     }
 
     @Override
-    public void showError(Exception e) {
+    public void showError(Error error) {
         rvCategoryProducts.setVisibility(View.GONE);
         tvNetworkIsNotAvailable.setVisibility(View.VISIBLE);
     }

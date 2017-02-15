@@ -4,6 +4,9 @@ package com.nodomain.mensclothingstore.domain.interactors;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 
+import com.nodomain.mensclothingstore.domain.Error;
+import com.nodomain.mensclothingstore.domain.exceptions.*;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.concurrent.Executor;
@@ -31,5 +34,12 @@ public class BaseInteractor {
 
     protected void postStickyEvent(@NonNull Object event) {
         eventBus.postSticky(event);
+    }
+
+    protected Error exceptionToError(Exception e) {
+        if (e instanceof ConnectionFailedException)
+            return Error.CONNECTION_FAILED;
+        else
+            return Error.NONE;
     }
 }

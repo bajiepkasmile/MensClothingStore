@@ -5,8 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.nodomain.mensclothingstore.domain.exceptions.NetworkIsNotAvailableException;
-
 import javax.inject.Inject;
 
 
@@ -19,13 +17,8 @@ public class NetworkUtil {
         connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
     }
 
-    public void checkNetworkIsAvailable() {
-        if (networkIsNotAvailable())
-            throw new NetworkIsNotAvailableException();
-    }
-
-    private boolean networkIsNotAvailable() {
+    public boolean networkIsAvailable() {
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo == null || !networkInfo.isConnected();
+        return networkInfo != null && networkInfo.isConnected();
     }
 }

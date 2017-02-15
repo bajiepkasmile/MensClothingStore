@@ -1,19 +1,34 @@
 <resources>
 
-    <string name="app_name">Men\'s Clothing Store</string>
+    <string name="app_name">MCS</string>
 
+    <!--Categories loading-->
     <string name="loading_categories">Загрузка категорий</string>
+
+    <!--Category products-->
     <string name="loading_products">Загрузка списка товаров</string>
+
+    <!--Product details-->
     <string name="price">Цена: %1$d руб.</string>
     <string name="description">Описание:</string>
     <string name="comments">Комментарии:</string>
     <string name="no_comments">Нет комментариев</string>
+    <string name="cant_load_comments">При загрузке комментариев произошла ошибка.
+        Проверьте ваше подлключение к сети.</string>
     <string name="add_comment">Добавить комментарий</string>
+
+    <!--Add comment to product-->
+    <string name="name">Имя:</string>
+    <string name="introduce_yourself">Представьтесь</string>
+    <string name="comment">Комментарий:</string>
+    <string name="few_words">Несколько слов о товаре</string>
+    <string name="add">Добавить</string>
+    <string name="adding">Добавление</string>
 
     <!--Errors-->
     <string name="error.network_is_not_available">Нет подключения к сети</string>
     <string name="error.connection_failed">Потеряно соединие с сетью</string>
-    <string name="error.cant_load_comments">При загрузке комментариев произошла ошибка. Проверьте ваше подлключение к сети.</string>
+    <string name="error.empty_filed">Заполнены не все поля</string>
 
     <!--Content descriptions-->
     <string name="content_desc.product_image">Изображение товара</string>

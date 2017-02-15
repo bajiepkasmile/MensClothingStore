@@ -1,15 +1,18 @@
 package com.nodomain.mensclothingstore.domain.events;
 
 
+import com.nodomain.mensclothingstore.domain.Error;
+
+
 public class BaseFailureEvent {
 
-    private Exception exception;
+    private Error error;
 
-    protected BaseFailureEvent(Exception exception) {
-        this.exception = exception;
+    public BaseFailureEvent(Error error) {
+        this.error = error;
     }
 
-    public Exception getException() {
-        return exception;
+    public Error getError() {
+        return error;
     }
 }

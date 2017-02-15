@@ -11,5 +11,7 @@ public interface ProductDetailsMvpPresenter extends MvpPresenter<ProductDetailsM
 
     void getProductComments();
 
+    void addCommentToProduct();
+
     void returnToPreviousView();
 }

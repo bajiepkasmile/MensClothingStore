@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
-
+//TODO: add comment ripple
 public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<ProductDetailsMvpView>
         implements ProductDetailsMvpPresenter {
 
@@ -41,6 +41,11 @@ public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<Product
     }
 
     @Override
+    public void addCommentToProduct() {
+        mvpView.showAddCommentToProductView(product);
+    }
+
+    @Override
     public void returnToPreviousView() {
         mvpView.showPreviousView();
     }
@@ -56,7 +61,7 @@ public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<Product
     @Subscribe
     public void onGetProductCommentsFailure(OnGetProductCommentsFailureEvent event) {
         mvpView.hideCommentsLoadingProgress();
-        mvpView.showError(event.getException());
+        mvpView.showError(event.getError());
 
         removeStickyEvent(event);
     }

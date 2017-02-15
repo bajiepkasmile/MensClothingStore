@@ -15,7 +15,7 @@ import butterknife.Unbinder;
 
 public class ProductDetailsAnimations {
 
-    @BindView(R.id.tv_comment)
+    @BindView(R.id.tv_add_comment)
     TextView tvComment;
 
     private Unbinder unbinder;
@@ -32,14 +32,14 @@ public class ProductDetailsAnimations {
         unbinder.unbind();
     }
 
-    public void showTvComment() {
+    public void showTvAddComment() {
         tvComment.animate()
                 .translationY(0)
                 .setDuration(150)
                 .start();
     }
 
-    public void hideTvComment() {
+    public void hideTvAddComment() {
         tvComment.animate()
                 .translationY(tvComment.getHeight())
                 .setDuration(150)

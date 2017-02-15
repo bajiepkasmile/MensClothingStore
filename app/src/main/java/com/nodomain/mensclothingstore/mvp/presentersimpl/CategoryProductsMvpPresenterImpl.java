@@ -57,7 +57,7 @@ public class CategoryProductsMvpPresenterImpl extends BaseMvpPresenterImpl<Categ
     @Subscribe
     public void onGetCategoryProductsFailure(OnGetCategoryProductsFailureEvent event) {
         mvpView.hideProductsLoadingProgress();
-        mvpView.showError(event.getException());
+        mvpView.showError(event.getError());
 
         removeStickyEvent(event);
     }

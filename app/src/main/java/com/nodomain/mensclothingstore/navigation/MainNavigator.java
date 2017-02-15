@@ -2,18 +2,20 @@ package com.nodomain.mensclothingstore.navigation;
 
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.app.FragmentManager;
 
 import com.nodomain.mensclothingstore.R;
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
+import com.nodomain.mensclothingstore.ui.fragments.AddCommentToProductFragment;
 import com.nodomain.mensclothingstore.ui.fragments.CategoriesLoadingFragment;
 import com.nodomain.mensclothingstore.ui.fragments.CategoryProductsFragment;
 import com.nodomain.mensclothingstore.ui.fragments.ProductDetailsFragment;
 import com.nodomain.mensclothingstore.ui.listeners.OnBackPressListener;
 
 
-public class MainNavigator implements CategoryProductsNavigator, ProductDetailsNavigator {
+public class MainNavigator implements CategoryProductsNavigator, ProductDetailsNavigator, AddCommentToProductNavigator {
 
     private Activity activity;
     private FragmentManager fragmentManager;
@@ -32,22 +34,20 @@ public class MainNavigator implements CategoryProductsNavigator, ProductDetailsN
 
     @Override
     public void navigateToProductDetailsView(Product product) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.fl_fragment_container, ProductDetailsFragment.newInstance(product))
-                .addToBackStack(null)
-                .commit();
+        replaceFragmentWithAddingToBackstack(ProductDetailsFragment.newInstance(product));
+    }
+
+    @Override
+    public void navigateToAddCommentToProductView(Product product) {
+        replaceFragmentWithAddingToBackstack(AddCommentToProductFragment.newInstance(product));
     }
 
     public void navigateToCategoryProductsView(Category category) {
-        fragmentManager.beginTransaction()
-                .replace(R.id.fl_fragment_container, CategoryProductsFragment.newInstance(category))
-                .commit();
+        replaceFragment(CategoryProductsFragment.newInstance(category));
     }
 
     public void navigateToCategoriesLoadingView() {
-        fragmentManager.beginTransaction()
-                .replace(R.id.fl_fragment_container, CategoriesLoadingFragment.newInstance())
-                .commit();
+        replaceFragment(CategoriesLoadingFragment.newInstance());
     }
 
     public boolean onBackPressed() {
@@ -60,5 +60,18 @@ public class MainNavigator implements CategoryProductsNavigator, ProductDetailsN
 
     public void removeOnBackPressListener() {
         listener = null;
+    }
+
+    private void replaceFragment(Fragment fragment) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.fl_fragment_container, fragment)
+                .commit();
+    }
+    
+    private void replaceFragmentWithAddingToBackstack(Fragment fragment) {
+        fragmentManager.beginTransaction()
+                .replace(R.id.fl_fragment_container, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }

@@ -93,7 +93,7 @@
             android:layout_marginLeft="@dimen/spacing_small"
             android:layout_marginRight="@dimen/spacing_small"
             android:layout_gravity="center"
-            android:text="@string/error.cant_load_comments"
+            android:text="@string/cant_load_comments"
             tools:visibility="visible"
             style="@style/TextViewCommentsLoadingFailure"
             />
@@ -116,7 +116,7 @@
             android:id="@+id/rv_comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/height_tv_comment"
+            android:layout_marginBottom="@dimen/height_tv_add_comment"
             android:layout_marginLeft="@dimen/spacing_small"
             android:layout_marginRight="@dimen/spacing_small"
             android:nestedScrollingEnabled="false"

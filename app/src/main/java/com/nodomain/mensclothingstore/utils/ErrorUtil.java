@@ -4,8 +4,7 @@ package com.nodomain.mensclothingstore.utils;
 import android.content.Context;
 
 import com.nodomain.mensclothingstore.R;
-import com.nodomain.mensclothingstore.domain.exceptions.ConnectionFailedException;
-import com.nodomain.mensclothingstore.domain.exceptions.NetworkIsNotAvailableException;
+import com.nodomain.mensclothingstore.domain.Error;
 
 import javax.inject.Inject;
 
@@ -19,12 +18,16 @@ public class ErrorUtil {
         this.context = context;
     }
 
-    public String exceptionToErrorMessage(Exception e) {
-        if (e instanceof NetworkIsNotAvailableException)
-            return context.getString(R.string.error_network_is_not_available);
-        else if (e instanceof ConnectionFailedException)
-            return context.getString(R.string.error_connection_failed);
-        else
-            return null;
+    public String errorToErrorMessage(Error error) {
+        switch (error) {
+            case NETWORK_IS_NOT_AVAILABLE:
+                return context.getString(R.string.error_network_is_not_available);
+            case CONNECTION_FAILED:
+                return context.getString(R.string.error_connection_failed);
+            case EMPTY_FIELD:
+                return context.getString(R.string.error_empty_filed);
+            default:
+                return "";
+        }
     }
 }

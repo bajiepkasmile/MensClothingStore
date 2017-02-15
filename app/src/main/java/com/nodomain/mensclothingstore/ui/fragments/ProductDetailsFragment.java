@@ -4,8 +4,6 @@ package com.nodomain.mensclothingstore.ui.fragments;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.nodomain.mensclothingstore.R;
+import com.nodomain.mensclothingstore.domain.Error;
 import com.nodomain.mensclothingstore.model.Comment;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
@@ -36,6 +35,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresenter>
@@ -59,8 +59,8 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     RecyclerView rvComments;
     @BindView(R.id.scroll_view)
     ListenableScrollView scrollView;
-    @BindView(R.id.tv_comment)
-    TextView tvComment;
+    @BindView(R.id.tv_add_comment)
+    TextView tvAddComment;
 
     @Inject
     ProductDetailsNavigator navigator;
@@ -96,9 +96,9 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         animations.bind(view);
 
         displayHomeButton();
-        setTvCommentOnGlobalLayoutListener();
+        setTvAddCommentOnGlobalLayoutListener();
         scrollView.setOnScrollPositionChangeListener(this);
-        tvCommentHideBound = displayUtil.getDisplayHeight() - getTvCommentHeightFromRes();
+        tvCommentHideBound = displayUtil.getDisplayHeight() - getTvAddCommentHeightFromRes();
 
         mvpPresenter.init(getProductFromArgs());
         if (commentsAdapter == null) {
@@ -159,12 +159,17 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     }
 
     @Override
+    public void showAddCommentToProductView(Product product) {
+        navigator.navigateToAddCommentToProductView(product);
+    }
+
+    @Override
     public void showPreviousView() {
         navigator.navigateToPreviousView();
     }
 
     @Override
-    public void showError(Exception e) {
+    public void showError(Error error) {
         tvNetworkIsNotAvailable.setVisibility(View.VISIBLE);
     }
 
@@ -172,36 +177,34 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     public void onScrollPositionChange() {
         int y = getRvCommentsLocationY();
 
-        if (needToShowTvComment(y)) {
-            showTvComment();
-        } else if (needToHideTvComment(y)) {
-            hideTvComment();
+        if (needToShowTvAddComment(y)) {
+            showTvAddComment();
+        } else if (needToHideTvAddComment(y)) {
+            hideTvAddComment();
         }
     }
 
-    private boolean needToShowTvComment(int rvCommentsLocationY) {
+    @OnClick(R.id.tv_add_comment)
+    public void onAddCommentClick() {
+        mvpPresenter.addCommentToProduct();
+    }
+
+    private boolean needToShowTvAddComment(int rvCommentsLocationY) {
         return (rvCommentsLocationY < tvCommentHideBound) && tvCommentIsHidden;
     }
 
-    private boolean needToHideTvComment(int rvCommentsLocationY) {
+    private boolean needToHideTvAddComment(int rvCommentsLocationY) {
         return (rvCommentsLocationY > tvCommentHideBound) && !tvCommentIsHidden;
     }
 
-    private void showTvComment() {
+    private void showTvAddComment() {
         tvCommentIsHidden = false;
-        animations.showTvComment();
+        animations.showTvAddComment();
     }
 
-    private void hideTvComment() {
+    private void hideTvAddComment() {
         tvCommentIsHidden = true;
-        animations.hideTvComment();
-    }
-
-    private void displayHomeButton() {
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
+        animations.hideTvAddComment();
     }
 
     private Product getProductFromArgs() {
@@ -214,15 +217,15 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
         return location[1];
     }
 
-    private float getTvCommentHeightFromRes() {
-        return getResources().getDimension(R.dimen.height_tv_comment);
+    private float getTvAddCommentHeightFromRes() {
+        return getResources().getDimension(R.dimen.height_tv_add_comment);
     }
 
-    private void setTvCommentOnGlobalLayoutListener() {
-        tvComment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+    private void setTvAddCommentOnGlobalLayoutListener() {
+        tvAddComment.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                tvComment.setTranslationY(tvComment.getHeight());
+                tvAddComment.setTranslationY(tvAddComment.getHeight());
                 removeOnGlobalLayoutListener(this);
             }
         });
@@ -230,9 +233,9 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
 
     private void removeOnGlobalLayoutListener(OnGlobalLayoutListener listener) {
         if (Build.VERSION.SDK_INT > 15) {
-            tvComment.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+            tvAddComment.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
         } else {
-            tvComment.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
+            tvAddComment.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
         }
     }
 }

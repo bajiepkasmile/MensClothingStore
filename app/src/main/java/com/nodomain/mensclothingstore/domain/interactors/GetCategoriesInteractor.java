@@ -4,6 +4,7 @@ package com.nodomain.mensclothingstore.domain.interactors;
 import android.os.Handler;
 
 import com.nodomain.mensclothingstore.data.datasources.remote.CategoriesRemoteStorage;
+import com.nodomain.mensclothingstore.domain.Error;
 import com.nodomain.mensclothingstore.domain.events.OnGetCategoriesFailureEvent;
 import com.nodomain.mensclothingstore.domain.events.OnGetCategoriesSuccessEvent;
 import com.nodomain.mensclothingstore.model.Category;
@@ -31,13 +32,19 @@ public class GetCategoriesInteractor extends BaseInteractor {
     }
 
     public void execute() {
+        boolean networkIsNotAvailable = !networkUtil.networkIsAvailable();
+        if (networkIsNotAvailable) {
+            postStickyEvent(new OnGetCategoriesFailureEvent(Error.NETWORK_IS_NOT_AVAILABLE));
+            return;
+        }
+
         inBackground(() -> {
             try {
-                networkUtil.checkNetworkIsAvailable();
                 List<Category> categories = categoriesRemoteStorage.getCategories();
                 onMainThread(() -> postStickyEvent(new OnGetCategoriesSuccessEvent(categories)));
             } catch (Exception e) {
-                onMainThread(() -> postStickyEvent(new OnGetCategoriesFailureEvent(e)));
+                Error error = exceptionToError(e);
+                onMainThread(() -> postStickyEvent(new OnGetCategoriesFailureEvent(error)));
             }
         });
     }
