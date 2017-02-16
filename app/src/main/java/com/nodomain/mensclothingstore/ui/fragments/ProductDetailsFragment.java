@@ -23,7 +23,7 @@ import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
 import com.nodomain.mensclothingstore.mvp.views.ProductDetailsMvpView;
 import com.nodomain.mensclothingstore.navigation.ProductDetailsNavigator;
 import com.nodomain.mensclothingstore.ui.activities.MainActivity;
-import com.nodomain.mensclothingstore.ui.adapters.ListenableScrollView;
+import com.nodomain.mensclothingstore.ui.customviews.ListenableScrollView;
 import com.nodomain.mensclothingstore.ui.animations.ProductDetailsAnimations;
 import com.nodomain.mensclothingstore.ui.listeners.OnScrollPositionChangeListener;
 import com.nodomain.mensclothingstore.ui.recyclerviews.adapters.CommentsAdapter;

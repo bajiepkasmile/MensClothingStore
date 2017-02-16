@@ -48,4 +48,9 @@ public class CategoriesNavigationViewAdapter implements NavigationView.OnNavigat
     public void setItemChecked(int position) {
         menu.getItem(position).setChecked(true);
     }
+
+    public void setItemChecked(Category category) {
+        int itemIndex = categories.indexOf(category);
+        menu.getItem(itemIndex).setChecked(true);
+    }
 }

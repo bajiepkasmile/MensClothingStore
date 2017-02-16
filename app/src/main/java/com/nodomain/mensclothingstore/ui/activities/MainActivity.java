@@ -101,13 +101,15 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
     public void showCategories(List<Category> categories) {
         categoriesNavigationViewAdapter = new CategoriesNavigationViewAdapter(categories, navigationView, this);
         categoriesNavigationViewAdapter.setItemChecked(0);
-        navigator.navigateToCategoryProductsView(categories.get(0));
+        saveCurrentCategoryInViewState(categories.get(0));
         saveCategoriesInViewState(categories);
+        navigator.navigateToCategoryProductsView(categories.get(0));
         unlockDrawer();
     }
 
     @Override
     public void showCategoryProductsView(Category category) {
+        saveCurrentCategoryInViewState(category);
         navigator.navigateToCategoryProductsView(category);
     }
 
@@ -143,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
     private void showSavedCategories() {
         List<Category> categories = viewStateFragment.getCategories();
         categoriesNavigationViewAdapter = new CategoriesNavigationViewAdapter(categories, navigationView, this);
+        categoriesNavigationViewAdapter.setItemChecked(viewStateFragment.getCurrentCategory());
     }
 
     private void saveCategoriesInViewState(List<Category> categories) {
@@ -151,5 +154,13 @@ public class MainActivity extends AppCompatActivity implements MainMvpView, OnIt
             fragmentManager.beginTransaction().add(viewStateFragment, TAG_VIEW_STATE).commit();
         }
         viewStateFragment.setCategories(categories);
+    }
+
+    private void saveCurrentCategoryInViewState(Category category) {
+        if (viewStateFragment == null) {
+            viewStateFragment = new MainViewStateFragment();
+            fragmentManager.beginTransaction().add(viewStateFragment, TAG_VIEW_STATE).commit();
+        }
+        viewStateFragment.setCurrentCategory(category);
     }
 }

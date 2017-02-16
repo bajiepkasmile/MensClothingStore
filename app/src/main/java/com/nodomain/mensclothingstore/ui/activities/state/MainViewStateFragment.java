@@ -12,6 +12,7 @@ import java.util.List;
 public class MainViewStateFragment extends Fragment {
 
     private List<Category> categories;
+    private Category currentCategory;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,5 +26,13 @@ public class MainViewStateFragment extends Fragment {
 
     public List<Category> getCategories() {
         return categories;
+    }
+
+    public void setCurrentCategory(Category currentCategory) {
+        this.currentCategory = currentCategory;
+    }
+
+    public Category getCurrentCategory() {
+        return currentCategory;
     }
 }

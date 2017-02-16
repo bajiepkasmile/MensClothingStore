@@ -15,7 +15,7 @@
         style="@style/Toolbar"
         />
 
-    <com.nodomain.mensclothingstore.ui.adapters.ListenableScrollView
+    <com.nodomain.mensclothingstore.ui.customviews.ListenableScrollView
         android:id="@+id/scroll_view"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -27,14 +27,14 @@
 
             <include layout="@layout/content_product_details"/>
 
-    </com.nodomain.mensclothingstore.ui.adapters.ListenableScrollView>
+    </com.nodomain.mensclothingstore.ui.customviews.ListenableScrollView>
 
     <TextView
         android:id="@+id/tv_add_comment"
         android:layout_width="0dp"
         android:layout_height="@dimen/height_tv_add_comment"
         android:layout_gravity="bottom"
-        android:background="@color/gray_dark"
+        android:background="@drawable/background_add_comment"
         android:text="@string/add_comment"
         android:textColor="@color/white"
         android:textStyle="bold"

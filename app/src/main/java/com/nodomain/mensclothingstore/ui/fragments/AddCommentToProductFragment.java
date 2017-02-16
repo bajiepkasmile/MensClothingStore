@@ -45,7 +45,7 @@ public class AddCommentToProductFragment extends BaseFragment<AddCommentToProduc
     @Inject
     ToastUtil toastUtil;
 
-    private ProgressDialog pdAddComment;
+    private ProgressDialogFragment pdFragment = ProgressDialogFragment.newInstance(R.string.adding);
 
     public static AddCommentToProductFragment newInstance(Product product) {
         AddCommentToProductFragment fragment = new AddCommentToProductFragment();
@@ -88,13 +88,12 @@ public class AddCommentToProductFragment extends BaseFragment<AddCommentToProduc
 
     @Override
     public void showAddCommentProgress() {
-        pdAddComment = createProgressDialog(R.string.adding);
-        pdAddComment.show();
+        pdFragment.show(getFragmentManager(), null);
     }
 
     @Override
     public void hideAddCommentProgress() {
-        pdAddComment.hide();
+        pdFragment.dismiss();
     }
 
     @Override

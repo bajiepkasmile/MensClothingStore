@@ -1,4 +1,4 @@
-package com.nodomain.mensclothingstore.ui.adapters;
+package com.nodomain.mensclothingstore.ui.customviews;
 
 
 import android.annotation.TargetApi;
