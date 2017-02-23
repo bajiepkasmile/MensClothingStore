@@ -1,15 +1,12 @@
 package com.nodomain.mensclothingstore.data.datasources.remote;
 
 
-import android.util.Log;
-
 import com.nodomain.mensclothingstore.model.Comment;
 import com.nodomain.mensclothingstore.model.Product;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -31,7 +28,7 @@ public class CommentsRemoteStorage {
 
     public List<Comment> getCommentsForProduct(Product product) {
         if (product.getId() % 2 == 0) {
-            return comments;
+            return copyComments(comments); //return copy to achieve immutability of storage
         } else {
             return Collections.emptyList();
         }
@@ -41,5 +38,14 @@ public class CommentsRemoteStorage {
         Comment comment = new Comment(senderName, calendar, text);
         comments.add(comment);
         return comment;
+    }
+
+    private List<Comment> copyComments(List<Comment> comments) {
+        List<Comment> copiedComments = new ArrayList<>();
+        for (Comment comment : comments) {
+            Comment copiedComment = new Comment(comment.getSenderName(), comment.getSentTime(), comment.getText());
+            copiedComments.add(copiedComment);
+        }
+        return copiedComments;
     }
 }

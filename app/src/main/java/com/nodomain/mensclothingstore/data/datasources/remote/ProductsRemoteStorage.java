@@ -58,11 +58,21 @@ public class ProductsRemoteStorage {
 
     public List<Product> getProductsFromCategory(Category category) {
         List<Product> categoryProducts = new ArrayList<>();
-        for (Product detailedProduct : allProducts) {
-            if (detailedProduct.getCategoryId() == category.getId()) {
-                categoryProducts.add(detailedProduct);
+        for (Product product : allProducts) {
+            if (product.getCategoryId() == category.getId()) {
+                Product copiedProduct = copyProduct(product); //return copy to achieve immutability of storage
+                categoryProducts.add(copiedProduct);
             }
         }
         return categoryProducts;
+    }
+
+    private Product copyProduct(Product product) {
+        return new Product(product.getId(),
+                product.getCategoryId(),
+                product.getName(),
+                product.getPrice(),
+                product.getImageUrl(),
+                product.getDescription());
     }
 }

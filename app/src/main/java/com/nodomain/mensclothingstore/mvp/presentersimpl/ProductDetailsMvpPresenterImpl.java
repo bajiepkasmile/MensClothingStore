@@ -13,7 +13,7 @@ import org.greenrobot.eventbus.Subscribe;
 
 import javax.inject.Inject;
 
-//TODO: add comment ripple
+
 public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<ProductDetailsMvpView>
         implements ProductDetailsMvpPresenter {
 

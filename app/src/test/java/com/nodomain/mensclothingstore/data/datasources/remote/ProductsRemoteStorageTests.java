@@ -14,24 +14,29 @@ import static junit.framework.Assert.*;
 public class ProductsRemoteStorageTests {
 
     private ProductsRemoteStorage productsRemoteStorage = new ProductsRemoteStorage();
-    private Product productWithValidId = new Product(0, 0, "name", 100, "url", "desc");
-    private Product productWithInvalidId = new Product(100, 0, "name", 100, "url", "desc");
+    private Category validCategory = new Category(0, "Футболки и майки");
 
     @Test
-    public void gottenCategoryProductsSizeIsNotZero() {
-        Category category = new Category(0, "Футболки и майки");
-        List<Product> productsFromCategory = productsRemoteStorage.getProductsFromCategory(category);
+    public void categoryProductsCountIsNotZero() {
+        int productsCount = productsRemoteStorage.getProductsFromCategory(validCategory).size();
 
-        assertTrue(productsFromCategory.size() > 0);
+        assertTrue(productsCount > 0);
     }
 
     @Test
     public void gottenCategoryProductsFromRightCategory() {
-        Category category = new Category(0, "Футболки и майки");
-        List<Product> productsFromCategory = productsRemoteStorage.getProductsFromCategory(category);
+        List<Product> productsFromCategory = productsRemoteStorage.getProductsFromCategory(validCategory);
 
         for (Product product : productsFromCategory)
-            if (product.getCategoryId() != category.getId())
+            if (product.getCategoryId() != validCategory.getId())
                 fail();
+    }
+
+    @Test
+    public void productsRemoteStorageIsImmutable() {
+        productsRemoteStorage.getProductsFromCategory(validCategory).clear();
+        int productsCount = productsRemoteStorage.getProductsFromCategory(validCategory).size();
+
+        assertEquals(5, productsCount);
     }
 }

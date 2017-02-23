@@ -28,8 +28,10 @@ public class CategoriesRemoteStorageTests {
     }
 
     @Test
-    public void categoriesStorageIsImmutable() {
+    public void categoriesRemoteStorageIsImmutable() {
         categoriesRemoteStorage.getCategories().clear();
-        assertEquals(8, categoriesRemoteStorage.getCategories().size());
+        int categoriesCount = categoriesRemoteStorage.getCategories().size();
+
+        assertEquals(8, categoriesCount);
     }
 }

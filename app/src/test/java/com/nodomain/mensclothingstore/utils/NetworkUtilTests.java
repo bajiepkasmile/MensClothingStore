@@ -5,9 +5,6 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
-import com.nodomain.mensclothingstore.domain.exceptions.NetworkIsNotAvailableException;
-
-import org.junit.Before;
 import org.junit.Test;
 
 import static junit.framework.Assert.fail;
@@ -17,7 +14,7 @@ import static org.mockito.Mockito.*;
 public class NetworkUtilTests {
 
     @Test
-    public void checkingNetworkDoNotThrowsExceptionWhenNetworkIsAvailable() {
+    public void networkIsAvailableWhenNetworkInfoIsConnected() {
         NetworkInfo networkInfo = mock(NetworkInfo.class);
         when(networkInfo.isConnected()).thenReturn(true);
 
@@ -29,11 +26,13 @@ public class NetworkUtilTests {
 
         NetworkUtil networkUtil = new NetworkUtil(context);
 
-        networkUtil.checkNetworkIsAvailable();
+        if (!networkUtil.networkIsAvailable()) {
+            fail();
+        }
     }
 
-    @Test(expected = NetworkIsNotAvailableException.class)
-    public void checkingNetworkThrowsExceptionWhenNetworkInfoIsNull() {
+    @Test
+    public void networkIsNotAvailableWhenNetworkInfoIsNull() {
         ConnectivityManager connectivityManager = mock(ConnectivityManager.class);
         when(connectivityManager.getActiveNetworkInfo()).thenReturn(null);
 
@@ -42,12 +41,13 @@ public class NetworkUtilTests {
 
         NetworkUtil networkUtil = new NetworkUtil(context);
 
-        networkUtil.checkNetworkIsAvailable();
-        fail();
+        if (networkUtil.networkIsAvailable()) {
+            fail();
+        }
     }
 
-    @Test(expected = NetworkIsNotAvailableException.class)
-    public void checkingNetworkThrowsExceptionWhenNetworkInfoIsNotConnected() {
+    @Test
+    public void networkIsNotAvailableWhenNetworkInfoIsNotConnected() {
         NetworkInfo networkInfo = mock(NetworkInfo.class);
         when(networkInfo.isConnected()).thenReturn(false);
 
@@ -59,7 +59,8 @@ public class NetworkUtilTests {
 
         NetworkUtil networkUtil = new NetworkUtil(context);
 
-        networkUtil.checkNetworkIsAvailable();
-        fail();
+        if (networkUtil.networkIsAvailable()) {
+            fail();
+        }
     }
 }
