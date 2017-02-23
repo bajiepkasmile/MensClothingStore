@@ -3,6 +3,7 @@ package com.nodomain.mensclothingstore.mvp.presentersimpl;
 
 import com.nodomain.mensclothingstore.domain.events.OnGetProductCommentsFailureEvent;
 import com.nodomain.mensclothingstore.domain.events.OnGetProductCommentsSuccessEvent;
+import com.nodomain.mensclothingstore.domain.events.OnNetworkAvailableEvent;
 import com.nodomain.mensclothingstore.domain.interactors.GetProductCommentsInteractor;
 import com.nodomain.mensclothingstore.model.Product;
 import com.nodomain.mensclothingstore.mvp.presenters.ProductDetailsMvpPresenter;
@@ -63,6 +64,12 @@ public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<Product
         mvpView.hideCommentsLoadingProgress();
         mvpView.showError(event.getError());
 
+        removeStickyEvent(event);
+    }
+
+    @Subscribe
+    public void onNetworkAvailable(OnNetworkAvailableEvent event) {
+        getProductComments();
         removeStickyEvent(event);
     }
 }

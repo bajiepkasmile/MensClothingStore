@@ -1,6 +1,7 @@
 <resources>
 
-    <string name="app_name">M.C.S.</string>
+    <string name="app_name">Men\'s Clothing Store</string>
+    <string name="app_name_short">M.C.S.</string>
 
     <!--Categories loading-->
     <string name="loading_categories">Загрузка категорий</string>

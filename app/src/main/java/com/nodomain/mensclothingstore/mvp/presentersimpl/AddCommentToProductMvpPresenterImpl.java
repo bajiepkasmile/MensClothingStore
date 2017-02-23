@@ -14,7 +14,8 @@ import org.greenrobot.eventbus.Subscribe;
 import javax.inject.Inject;
 
 
-public class AddCommentToProductMvpPresenterImpl extends BaseMvpPresenterImpl<AddCommentToProductMvpView> implements AddCommentToProductMvpPresenter {
+public class AddCommentToProductMvpPresenterImpl extends BaseMvpPresenterImpl<AddCommentToProductMvpView>
+        implements AddCommentToProductMvpPresenter {
 
     private final AddCommentToProductInteractor addCommentToProductInteractor;
 

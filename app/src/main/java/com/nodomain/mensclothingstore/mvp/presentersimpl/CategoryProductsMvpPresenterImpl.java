@@ -3,6 +3,7 @@ package com.nodomain.mensclothingstore.mvp.presentersimpl;
 
 import com.nodomain.mensclothingstore.domain.events.OnGetCategoryProductsFailureEvent;
 import com.nodomain.mensclothingstore.domain.events.OnGetCategoryProductsSuccessEvent;
+import com.nodomain.mensclothingstore.domain.events.OnNetworkAvailableEvent;
 import com.nodomain.mensclothingstore.domain.interactors.GetCategoryProductsInteractor;
 import com.nodomain.mensclothingstore.model.Category;
 import com.nodomain.mensclothingstore.model.Product;
@@ -59,6 +60,12 @@ public class CategoryProductsMvpPresenterImpl extends BaseMvpPresenterImpl<Categ
         mvpView.hideProductsLoadingProgress();
         mvpView.showError(event.getError());
 
+        removeStickyEvent(event);
+    }
+
+    @Subscribe
+    public void onNetworkAvailable(OnNetworkAvailableEvent event) {
+        getCategoryProducts();
         removeStickyEvent(event);
     }
 }
