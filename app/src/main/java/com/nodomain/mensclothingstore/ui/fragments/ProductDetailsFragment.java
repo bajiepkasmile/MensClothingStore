@@ -149,6 +149,11 @@ public class ProductDetailsFragment extends BaseFragment<ProductDetailsMvpPresen
     }
 
     @Override
+    public void showAddedComment(Comment comment) {
+        commentsAdapter.addItem(comment);
+    }
+
+    @Override
     public void showCommentsLoadingProgress() {
         pbLoadingComments.setVisibility(View.VISIBLE);
     }

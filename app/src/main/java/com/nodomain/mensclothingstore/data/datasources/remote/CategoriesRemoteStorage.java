@@ -1,38 +1,48 @@
 package com.nodomain.mensclothingstore.data.datasources.remote;
 
 
+import com.nodomain.mensclothingstore.data.datasources.remote.impl.DtoMapper;
+import com.nodomain.mensclothingstore.data.datasources.remote.impl.McsApi;
+import com.nodomain.mensclothingstore.data.datasources.remote.impl.dtos.CategoryDto;
+import com.nodomain.mensclothingstore.domain.exceptions.ConnectionFailedException;
 import com.nodomain.mensclothingstore.model.Category;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Response;
 
 
 public class CategoriesRemoteStorage {
 
-    private List<Category> categories;
+    private final McsApi api;
+    private final DtoMapper dtoMapper;
 
-    public CategoriesRemoteStorage() {
-        categories = new ArrayList<>();
-        categories.add(new Category(0, "Футболки и майки"));
-        categories.add(new Category(1, "Рубашки"));
-        categories.add(new Category(2, "Кардиганы и джемперы"));
-        categories.add(new Category(3, "Брюки"));
-        categories.add(new Category(4, "Куртки и пальто"));
-        categories.add(new Category(5, "Пиджаки и костюмы"));
-        categories.add(new Category(6, "Спортивная одежда"));
-        categories.add(new Category(7, "Белье"));
+    public CategoriesRemoteStorage(McsApi api, DtoMapper dtoMapper) {
+        this.api = api;
+        this.dtoMapper = dtoMapper;
     }
 
     public List<Category> getCategories() {
-        return copyCategories(categories);  //return copy to achieve immutability of storage
+        try {
+            return tryToGetCategories();
+        } catch (IOException e) {
+            throw new ConnectionFailedException();
+        }
     }
 
-    private List<Category> copyCategories(List<Category> categories) {
-        List<Category> copiedCategories = new ArrayList<>();
-        for (Category category : categories) {
-            Category copiedCategory = new Category(category.getId(), category.getName());
-            copiedCategories.add(copiedCategory);
-        }
-        return copiedCategories;
+    private List<Category> tryToGetCategories() throws IOException {
+        Response<CategoryDto[]> response = submitGetCategoriesRequest();
+        return getCategoriesFromResponse(response);
+    }
+
+    private Response<CategoryDto[]> submitGetCategoriesRequest() throws IOException {
+        return api.getCategories().execute();
+    }
+
+    private List<Category> getCategoriesFromResponse(Response<CategoryDto[]> response) {
+        CategoryDto[] categoryDtos = response.body();
+        return dtoMapper.fromDtos(categoryDtos);
     }
 }

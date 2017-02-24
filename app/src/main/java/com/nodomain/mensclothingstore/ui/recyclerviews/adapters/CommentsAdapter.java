@@ -51,6 +51,11 @@ public class CommentsAdapter extends RecyclerView.Adapter<CommentViewHolder> {
         return comments.size();
     }
 
+    public void addItem(Comment comment) {
+        comments.add(comment);
+        notifyItemInserted(comments.size() - 1);
+    }
+
     private String calendarToSentTimeStr(Calendar calendar, Context context) {
         int sentDayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
         int sentMonth = calendar.get(Calendar.MONTH);

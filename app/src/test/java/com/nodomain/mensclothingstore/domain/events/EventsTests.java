@@ -33,7 +33,7 @@ public class EventsTests {
 
     @Test
     public void creatingOnAddCommentToProductSuccessEventIsCorrect() {
-        Comment comment = new Comment("sender", Calendar.getInstance(), "text");
+        Comment comment = new Comment(1, "sender", Calendar.getInstance(), "text");
         OnAddCommentToProductSuccessEvent event = new OnAddCommentToProductSuccessEvent(comment);
 
         assertEquals(comment, event.getComment());

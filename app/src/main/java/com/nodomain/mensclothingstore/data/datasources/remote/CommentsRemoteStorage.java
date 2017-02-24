@@ -1,51 +1,73 @@
 package com.nodomain.mensclothingstore.data.datasources.remote;
 
 
+import com.nodomain.mensclothingstore.data.datasources.remote.impl.DtoMapper;
+import com.nodomain.mensclothingstore.data.datasources.remote.impl.McsApi;
+import com.nodomain.mensclothingstore.data.datasources.remote.impl.dtos.CommentDto;
+import com.nodomain.mensclothingstore.data.datasources.remote.impl.requestbodies.AddCommentRequestBody;
+import com.nodomain.mensclothingstore.domain.exceptions.ConnectionFailedException;
 import com.nodomain.mensclothingstore.model.Comment;
 import com.nodomain.mensclothingstore.model.Product;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
+import java.io.IOException;
 import java.util.List;
-import java.util.TimeZone;
+
+import retrofit2.Response;
 
 
 public class CommentsRemoteStorage {
 
-    private List<Comment> comments;
-    private Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"));
+    private final McsApi api;
+    private final DtoMapper dtoMapper;
 
-    public CommentsRemoteStorage() {
-        calendar.setTimeInMillis(1386230874 * 1000L);
-
-        comments = new ArrayList<>();
-        comments.add(new Comment("Alex", calendar, "asd1"));
-        comments.add(new Comment("Bob", calendar, "aaasssddd"));
-        comments.add(new Comment("Oscar", calendar, "3asdasdasd3"));
-        comments.add(new Comment("Carl", calendar, "123asdasd"));
+    public CommentsRemoteStorage(McsApi api, DtoMapper dtoMapper) {
+        this.api = api;
+        this.dtoMapper = dtoMapper;
     }
 
     public List<Comment> getCommentsForProduct(Product product) {
-        if (product.getId() % 2 == 0) {
-            return copyComments(comments); //return copy to achieve immutability of storage
-        } else {
-            return Collections.emptyList();
+        try {
+            return tryToGetCommentsForProduct(product);
+        } catch (IOException e) {
+            throw new ConnectionFailedException();
         }
+    }
+
+    private List<Comment> tryToGetCommentsForProduct(Product product) throws IOException {
+        Response<CommentDto[]> response = submitGetCommentsForProductRequest(product);
+        return getCommentsForProductFromResponse(response);
+    }
+
+    private Response<CommentDto[]> submitGetCommentsForProductRequest(Product product) throws IOException {
+        return api.getCommentsForProduct(product.getId()).execute();
+    }
+
+    private List<Comment> getCommentsForProductFromResponse(Response<CommentDto[]> response) {
+        CommentDto[] commentDtos = response.body();
+        return dtoMapper.fromDtos(commentDtos);
     }
 
     public Comment addCommentToProduct(String senderName, String text, Product product) {
-        Comment comment = new Comment(senderName, calendar, text);
-        comments.add(comment);
-        return comment;
+        try {
+            return tryToAddCommentToProduct(senderName, text, product);
+        } catch (IOException e) {
+            throw new ConnectionFailedException();
+        }
     }
 
-    private List<Comment> copyComments(List<Comment> comments) {
-        List<Comment> copiedComments = new ArrayList<>();
-        for (Comment comment : comments) {
-            Comment copiedComment = new Comment(comment.getSenderName(), comment.getSentTime(), comment.getText());
-            copiedComments.add(copiedComment);
-        }
-        return copiedComments;
+    private Comment tryToAddCommentToProduct(String senderName, String text, Product product) throws IOException {
+        Response<CommentDto> response = submitAddCommentToProductRequest(senderName, text, product);
+        return getCommentFromResponse(response);
+    }
+
+    private Response<CommentDto> submitAddCommentToProductRequest(String senderName, String text, Product product)
+            throws IOException {
+        AddCommentRequestBody body = new AddCommentRequestBody(senderName, text);
+        return api.addCommentToProduct(product.getId(), body).execute();
+    }
+
+    private Comment getCommentFromResponse(Response<CommentDto> response) {
+        CommentDto commentDto = response.body();
+        return dtoMapper.fromDto(commentDto);
     }
 }

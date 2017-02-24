@@ -2,6 +2,7 @@ package com.nodomain.mensclothingstore.di.components;
 
 
 import com.nodomain.mensclothingstore.di.modules.ApplicationModule;
+import com.nodomain.mensclothingstore.di.modules.DataSourcesModule;
 import com.nodomain.mensclothingstore.di.modules.InteractorsModule;
 import com.nodomain.mensclothingstore.di.modules.MainActivityModule;
 import com.nodomain.mensclothingstore.di.modules.StoragesModule;
@@ -17,7 +18,8 @@ import dagger.Component;
         modules = {
                 ApplicationModule.class,
                 InteractorsModule.class,
-                StoragesModule.class
+                StoragesModule.class,
+                DataSourcesModule.class
         }
 )
 public interface ApplicationComponent {

@@ -13,11 +13,13 @@ public class CommentTests {
 
     @Test
     public void creatingCommentIsCorrect() {
+        long productId = 1;
         String senderName = "sender";
         Calendar sentTime = Calendar.getInstance(TimeZone.getTimeZone("Europe/Moscow"));
         String text = "text";
-        Comment comment = new Comment(senderName, sentTime, text);
+        Comment comment = new Comment(productId, senderName, sentTime, text);
 
+        assertEquals(productId, comment.getProductId());
         assertEquals(senderName, comment.getSenderName());
         assertEquals(sentTime, comment.getSentTime());
         assertEquals(text, comment.getText());

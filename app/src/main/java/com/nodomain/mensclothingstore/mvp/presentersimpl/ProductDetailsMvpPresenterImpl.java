@@ -1,6 +1,7 @@
 package com.nodomain.mensclothingstore.mvp.presentersimpl;
 
 
+import com.nodomain.mensclothingstore.domain.events.OnAddCommentToProductSuccessEvent;
 import com.nodomain.mensclothingstore.domain.events.OnGetProductCommentsFailureEvent;
 import com.nodomain.mensclothingstore.domain.events.OnGetProductCommentsSuccessEvent;
 import com.nodomain.mensclothingstore.domain.events.OnNetworkAvailableEvent;
@@ -65,6 +66,13 @@ public class ProductDetailsMvpPresenterImpl extends BaseMvpPresenterImpl<Product
         mvpView.showError(event.getError());
 
         removeStickyEvent(event);
+    }
+
+    @Subscribe(priority = 1)
+    public void onAddCommentToProductSuccess(OnAddCommentToProductSuccessEvent event) {
+        if (event.getComment().getProductId() == product.getId()) {
+            mvpView.showAddedComment(event.getComment());
+        }
     }
 
     @Subscribe

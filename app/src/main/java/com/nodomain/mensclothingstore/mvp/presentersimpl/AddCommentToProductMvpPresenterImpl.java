@@ -46,7 +46,7 @@ public class AddCommentToProductMvpPresenterImpl extends BaseMvpPresenterImpl<Ad
         mvpView.showPreviousView();
     }
 
-    @Subscribe
+    @Subscribe(priority = 0)
     public void onAddCommentToProductSuccess(OnAddCommentToProductSuccessEvent event) {
         mvpView.hideAddCommentProgress();
         mvpView.showPreviousView();

@@ -13,6 +13,8 @@ public interface ProductDetailsMvpView extends MvpView {
 
     void showProductComments(List<Comment> comments);
 
+    void showAddedComment(Comment comment);
+
     void showCommentsLoadingProgress();
 
     void hideCommentsLoadingProgress();
